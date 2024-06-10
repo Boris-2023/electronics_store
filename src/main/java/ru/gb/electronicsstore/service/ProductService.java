@@ -1,12 +1,18 @@
 package ru.gb.electronicsstore.service;
 
+import lombok.AllArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 import ru.gb.electronicsstore.domain.Product;
 import ru.gb.electronicsstore.repository.ProductRepository;
 
 import java.util.List;
 import java.util.Optional;
 
+@Service
+@AllArgsConstructor
 public class ProductService {
+
     private ProductRepository repository;
 
     public Product addProduct(Product product) {
@@ -14,9 +20,9 @@ public class ProductService {
         return product;
     }
 
-    public List<Product> getAllProducts() {
-        return repository.findAll();
-    }
+//    public List<Product> getAllProducts() {
+//        return repository.findAll();
+//    }
 
     public List<Product> getProductsWithinPriceRange(Double low, Double high) {
         return repository.findAll().stream()
