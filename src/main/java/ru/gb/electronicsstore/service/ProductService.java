@@ -20,14 +20,25 @@ public class ProductService {
         return product;
     }
 
-//    public List<Product> getAllProducts() {
-//        return repository.findAll();
-//    }
+    public List<Product> getAllProducts() {
+        return repository.findAll();
+    }
 
     public List<Product> getProductsWithinPriceRange(Double low, Double high) {
         return repository.findAll().stream()
                 .filter(x -> x.getPrice() >= low && x.getPrice()<= high)
                 .toList();
+    }
+
+   public List<Product> getProductsByText(String text) {
+        final String testString = text.replace(" ", "").toLowerCase();
+        return repository.findAll().stream()
+                .filter(x -> (x.getName() + x.getManufacturer() + x.getModel()).toLowerCase().contains(testString))
+                .toList();
+    }
+
+    public Product getProductById(Long id) {
+        return repository.findById(id).orElseGet(null);
     }
 
     public Product updateProductParameters(Long id, Product product) {

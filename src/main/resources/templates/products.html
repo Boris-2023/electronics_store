@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width">
+    <title>BestElectronics</title>
+    <script src="https://use.fontawesome.com/95b86417ef.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.2/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400&display=swap"
+          rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="norm.css">
+</head>
+
+<body>
+
+<header class="header-wrapper">
+    <div class="header container">
+
+        <a class="logo header__logo" href="/products">
+
+            <div class="logo__img"></div>
+            <span class="logo__letters">
+                    Best<span class="logo__special-letter">Electronics</span>
+                </span>
+        </a>
+        <!------>
+        <div class="header__browse-search">
+             <form class="search-form" action="/products" method="get">
+                <input class="search-form__input" type="text" placeholder="Поиск по товарам..." name="search" th:value="${value}">
+                <button type="submit" class="search-form__submit"><i class="fas fa-search fa-lg"></i>
+                </button>
+            </form>
+        </div>
+        <!------>
+
+
+        <div class="header__user-btn">
+            <a href="/auth" class="header__hrefUser">
+                <div class="header__user">Клиент</div>
+            </a>
+            <a href="/auth/logout">
+                <button type="submit" class="sign-out"><i class="fa-solid fa-arrow-right-from-bracket fa-xl"></i>
+                </button>
+            </a>
+        </div>
+
+
+        <div class="header__buttons">
+            <a href="/cart.html">
+                <div class="header__cart">
+                    <div class="header__cart-quantity"></div>
+                    <svg width="32" height="29" viewBox="0 0 32 29">
+                        <path d="M31.899,7.565 L26.493,19.977 C26.296,20.410 25.882,20.686 25.409,20.686 L10.554,20.686 C10.021,20.686 9.548,20.331 9.410,19.819 L4.577,2.364 L1.184,2.364 C0.533,2.364 -0.000,1.832 -0.000,1.182 C-0.000,0.532 0.533,-0.001 1.184,-0.001 L5.464,-0.001 C5.997,-0.001 6.471,0.354 6.609,0.866 L11.442,18.322 L24.620,18.322 L28.999,8.274 L14.401,8.274 C13.750,8.274 13.217,7.742 13.217,7.092 C13.217,6.442 13.750,5.910 14.401,5.910 L30.814,5.910 C31.208,5.910 31.583,6.107 31.800,6.442 C32.017,6.777 32.057,7.190 31.899,7.565 ZM9.429,23.641 C10.909,23.641 12.112,24.843 12.112,26.320 C12.112,27.798 10.909,28.999 9.429,28.999 C7.950,28.999 6.747,27.798 6.747,26.320 C6.747,24.843 7.950,23.641 9.429,23.641 ZM26.020,23.641 C27.500,23.542 28.782,24.665 28.881,26.123 C28.920,26.852 28.703,27.542 28.230,28.073 C27.756,28.625 27.105,28.940 26.395,28.999 C26.336,28.999 26.257,28.999 26.198,28.999 C24.797,28.999 23.633,27.896 23.535,26.498 C23.436,25.040 24.541,23.739 26.020,23.641 Z"/>
+                    </svg>
+                </div>
+            </a>
+            <a href="/auth">
+                <button class="header__btn-account">Вход</button>
+            </a>
+        </div>
+    </div>
+</header>
+
+<div th:class="${!products.isEmpty()} ? 'display-none' : 'text-out'">Товары не найдены</div>
+
+
+
+<section class='promo__content promo_mrg container'>
+
+    <figure th:each="product : ${products}" class='promo__card'>
+        <img class="product-img" th:src="@{'/images/img_big/card'+ ${product.id} + '.jpg'}">
+        <figcaption class='promo__caption'>
+            <h3 class='promo__name' th:text="${product.name} + ' ' + ${product.manufacturer} + ' ' + ${product.model}"></h3>
+            <span class='promo__price' th:text="${product.price}"></span>
+        </figcaption>
+
+        <a th:href="@{/products/card(id=${product.id})}">
+            <div class='promo__card-hover'></div>
+        </a>
+
+        <div class="promo_add" th:data-id="${product.id}">
+            <button class='promo__cart add' th:data-id="${product.id}" type="submit">
+                <svg class='white-cart add' th:data-id="${product.id}" fill='rgb(255, 255, 255)' width='32' height='29'
+                     viewBox='0 0 32 29'>
+                    <path class='add' th:data-id="${product.id}"
+                          d='M31.899,7.565 L26.493,19.977 C26.296,20.410 25.882,20.686 25.409,20.686 L10.554,20.686 C10.021,20.686 9.548,20.331 9.410,19.819 L4.577,2.364 L1.184,2.364 C0.533,2.364 -0.000,1.832 -0.000,1.182 C-0.000,0.532 0.533,-0.001 1.184,-0.001 L5.464,-0.001 C5.997,-0.001 6.471,0.354 6.609,0.866 L11.442,18.322 L24.620,18.322 L28.999,8.274 L14.401,8.274 C13.750,8.274 13.217,7.742 13.217,7.092 C13.217,6.442 13.750,5.910 14.401,5.910 L30.814,5.910 C31.208,5.910 31.583,6.107 31.800,6.442 C32.017,6.777 32.057,7.190 31.899,7.565 ZM9.429,23.641 C10.909,23.641 12.112,24.843 12.112,26.320 C12.112,27.798 10.909,28.999 9.429,28.999 C7.950,28.999 6.747,27.798 6.747,26.320 C6.747,24.843 7.950,23.641 9.429,23.641 ZM26.020,23.641 C27.500,23.542 28.782,24.665 28.881,26.123 C28.920,26.852 28.703,27.542 28.230,28.073 C27.756,28.625 27.105,28.940 26.395,28.999 C26.336,28.999 26.257,28.999 26.198,28.999 C24.797,28.999 23.633,27.896 23.535,26.498 C23.436,25.040 24.541,23.739 26.020,23.641 Z'/>
+                </svg>
+                <span class="promo__add-to-cart add" th:data-id="${product.id}">Add to cart</span>
+            </button>
+        </div>
+
+    </figure>
+
+
+</section>
+
+
+<footer class="footer-main footer-main_mrg container">
+    <div class="footer-main__text">
+        <a class="logo header__logo" href="#">
+            <div class="logo__img"></div>
+            <span class="logo__letters">
+                    Best<span class="logo__special-letter">Electronics</span>
+            </span>
+        </a>
+
+        <p class="footer-main__info">Чтобы быть сильным, надо быть как вода. Нет препятствий — она течёт; плотина — она остановится;
+            прорвётся плотина — она снова потечёт; в четырёхугольном сосуде она четырёхугольна; в круглом — кругла.
+            Оттого, что она так уступчива, она нужнее всего и сильнее всего.</p>
+    </div>
+
+</footer>
+
+<footer class="footer-end">
+    <span class="footer-end__copy-right">&copy; 2024 BestElectronics All Rights Reserved</span>
+</footer>
+
+
+</body>
+</html>

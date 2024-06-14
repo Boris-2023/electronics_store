@@ -22,8 +22,14 @@ public class Product {
     @Column(nullable = false)
     private String manufacturer;
 
-    @Column
+    @Column(nullable = false)
+    private String model;
+
+    @Column(name = "country_origin")
     private String countryOrigin;
+
+    @Column(name = "descript")
+    private String description;
 
     @Column(nullable = false)
     private Double price;

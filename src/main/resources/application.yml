@@ -1,5 +1,19 @@
 spring:
   application:
     name: ElectronicsStore
+  datasource:
+    url: jdbc:mysql://localhost:3307/store_db
+    username: root
+    password: root
+  jpa:
+    generate-ddl: true
+    show-sql: true
+    hibernate:
+      ddl-auto: update
+  security:
+    user:
+      name: user
+      password: 1
 server:
   port: 8000
+

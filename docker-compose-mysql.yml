@@ -1,0 +1,25 @@
+version: '3.8'
+
+services:
+  store-db:
+    image: mysql:8.4
+    container_name: store_db
+    restart: unless-stopped
+    environment:
+      MYSQL_DATABASE: 'store_db'
+      # So you don't have to use root, but you can if you like
+      MYSQL_USER: 'store_db_user'
+      # You can use whatever password you like
+      MYSQL_PASSWORD: 'store_db_password'
+      # Password for root access
+      MYSQL_ROOT_PASSWORD: 'root'
+    ports:
+      # <Port exposed> : < MySQL Port running inside container>
+      - '3307:3306'
+    volumes:
+      # mounting host data directory to the /var/lib/mysql in the container
+      - ./mysql_data:/var/lib/mysql
+      # mounting DB dump for low-weight project
+      - ./src/main/resources/db_dump:/docker-entrypoint-initdb.d
+
+
