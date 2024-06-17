@@ -9,8 +9,9 @@
     <link rel="preconnect" href="https://fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400&display=swap"
           rel="stylesheet">
-    <link rel="stylesheet" href="style.css">
-    <link rel="stylesheet" href="norm.css">
+    <link th:href="@{/styles/style.css}" rel="stylesheet"/>
+    <link th:href="@{/styles/norm.css}" rel="stylesheet"/>
+
 </head>
 
 <body>
@@ -27,8 +28,9 @@
         </a>
         <!------>
         <div class="header__browse-search">
-             <form class="search-form" action="/products" method="get">
-                <input class="search-form__input" type="text" placeholder="Поиск по товарам..." name="search" th:value="${value}">
+            <form class="search-form" action="/products" method="get">
+                <input class="search-form__input" type="text" placeholder="Поиск по товарам на сайте..." name="search"
+                       th:value="${value}">
                 <button type="submit" class="search-form__submit"><i class="fas fa-search fa-lg"></i>
                 </button>
             </form>
@@ -48,7 +50,7 @@
 
 
         <div class="header__buttons">
-            <a href="/cart.html">
+            <a class="js-go-cart" href="/cart">
                 <div class="header__cart">
                     <div class="header__cart-quantity"></div>
                     <svg width="32" height="29" viewBox="0 0 32 29">
@@ -57,7 +59,7 @@
                 </div>
             </a>
             <a href="/auth">
-                <button class="header__btn-account">Вход</button>
+                <button class="header__btn-account">Профиль</button>
             </a>
         </div>
     </div>
@@ -66,13 +68,13 @@
 <div th:class="${!products.isEmpty()} ? 'display-none' : 'text-out'">Товары не найдены</div>
 
 
-
 <section class='promo__content promo_mrg container'>
 
     <figure th:each="product : ${products}" class='promo__card'>
         <img class="product-img" th:src="@{'/images/img_big/card'+ ${product.id} + '.jpg'}">
         <figcaption class='promo__caption'>
-            <h3 class='promo__name' th:text="${product.name} + ' ' + ${product.manufacturer} + ' ' + ${product.model}"></h3>
+            <h3 class='promo__name'
+                th:text="${product.name} + ' ' + ${product.manufacturer} + ' ' + ${product.model}"></h3>
             <span class='promo__price' th:text="${product.price}"></span>
         </figcaption>
 
@@ -106,7 +108,8 @@
             </span>
         </a>
 
-        <p class="footer-main__info">Чтобы быть сильным, надо быть как вода. Нет препятствий — она течёт; плотина — она остановится;
+        <p class="footer-main__info">Чтобы быть сильным, надо быть как вода. Нет препятствий — она течёт; плотина — она
+            остановится;
             прорвётся плотина — она снова потечёт; в четырёхугольном сосуде она четырёхугольна; в круглом — кругла.
             Оттого, что она так уступчива, она нужнее всего и сильнее всего.</p>
     </div>
@@ -117,6 +120,14 @@
     <span class="footer-end__copy-right">&copy; 2024 BestElectronics All Rights Reserved</span>
 </footer>
 
+<script>
+ //   let auth = [[${auth}]];
+ //   let value = "[[${value}]]";
+ //   console.log(auth, value);
+</script>
+
+<script src="/js/functions.js"></script>
+<script src="/js/catalog.js"></script>
 
 </body>
 </html>

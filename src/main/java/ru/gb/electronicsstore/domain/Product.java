@@ -8,7 +8,6 @@ import lombok.NoArgsConstructor;
 @Data
 @Entity
 @Table(name = "products")
-@AllArgsConstructor
 @NoArgsConstructor
 public class Product {
 
@@ -19,13 +18,13 @@ public class Product {
     @Column(nullable = false)
     private String name;
 
-    @Column(nullable = false)
+    @Column(length = 50, nullable = false)
     private String manufacturer;
 
-    @Column(nullable = false)
+    @Column(length = 100, nullable = false)
     private String model;
 
-    @Column(name = "country_origin")
+    @Column(name = "country_origin", length = 50)
     private String countryOrigin;
 
     @Column(name = "descript")

@@ -41,6 +41,12 @@ public class ProductService {
         return repository.findById(id).orElseGet(null);
     }
 
+    public List<Product> getProductsByIds(List<Long> ids) {
+        return repository.findAll().stream()
+                .filter(x -> ids.contains(x.getId()))
+                .toList();
+    }
+
     public Product updateProductParameters(Long id, Product product) {
         Optional<Product> optionalProduct = repository.findById(id);
 
