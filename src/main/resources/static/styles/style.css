@@ -25,7 +25,7 @@ body {
 .header {
     display: flex;
     align-items: center;
-    height: 99px;
+    height: 80px;
     position: relative;
     justify-content: space-between;
 }
@@ -58,7 +58,6 @@ body {
     color: #ffffff;
     background-color: #729fcf;
     border-radius: 3px;
-    font-size: 15px;
     margin-left: 11px;
     cursor: pointer;
 }
@@ -657,15 +656,18 @@ body {
 
 /*ДЛЯ CHECKOUT*/
 
+.login_main_forms {
+    display: flex;
+}
+
 .auth {
-    padding-top: 89px;
+    padding-top: 50px;
     padding-bottom: 94px;
     border-bottom: 1px solid #e8e8e8;
 }
 
 .auth__form {
     display: flex;
-    margin-left: 30px;
 }
 
 .auth__buyer-status,
@@ -941,7 +943,7 @@ body {
 .auth__message {
     font-size: 20px;
     color: #729fcf;
-    margin-bottom: 50px;
+    margin-bottom: 30px;
 }
 
 .header__user-btn {
@@ -952,8 +954,14 @@ body {
 }
 
 .header__user {
-    cursor: pointer;
     color: #729fcf;
+    font-size: 20px;
+    font-weight: bold;
+}
+
+.header__user-wrap {
+    display: flex;
+    justify-content: end;
 }
 
 .header__hrefUser {
@@ -1507,10 +1515,6 @@ body {
     box-shadow: 0px 5px 8px 0px rgba(0, 0, 0, 0.16);
 }
 
-.registration_mrg {
-    margin-top: 50px;
-}
-
 .order-number {
     margin-bottom: 100px;
 }
@@ -1781,4 +1785,23 @@ body {
 
 .currency {
     margin-left: 8px;
+}
+
+
+.header__text-btn {
+    font-size: 18px;
+}
+
+.header__profile-btn {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    width: 95px;
+    margin: 0 auto;
+}
+
+.wrong-password-letter {
+    font-size: 20px;
+    color: #f57b7b;
+    margin-top: 14px;
 }

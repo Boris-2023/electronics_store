@@ -42,6 +42,16 @@ public class ProductController {
         return "products";
     }
 
+    @GetMapping("/auth")
+    public String getLoginPage(Model model, @RequestParam(defaultValue = "") String search) {
+
+        model.addAttribute("products", service.getProductsByText(search));
+        model.addAttribute("value", search);
+        //model.addAttribute("auth", true);
+
+        return "auth";
+    }
+
     // return a list of products based on id numbers provided
     @GetMapping("/cart")
     public String getProductsByIds(Model model) {

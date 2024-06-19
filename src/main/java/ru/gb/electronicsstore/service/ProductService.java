@@ -26,11 +26,11 @@ public class ProductService {
 
     public List<Product> getProductsWithinPriceRange(Double low, Double high) {
         return repository.findAll().stream()
-                .filter(x -> x.getPrice() >= low && x.getPrice()<= high)
+                .filter(x -> x.getPrice() >= low && x.getPrice() <= high)
                 .toList();
     }
 
-   public List<Product> getProductsByText(String text) {
+    public List<Product> getProductsByText(String text) {
         final String testString = text.replace(" ", "").toLowerCase();
         return repository.findAll().stream()
                 .filter(x -> (x.getName() + x.getManufacturer() + x.getModel()).toLowerCase().contains(testString))

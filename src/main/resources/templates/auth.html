@@ -75,44 +75,89 @@
     </div>
 </header>
 
+<main class="auth container">
+    <p class="auth__message">Здравствуйте!</p>
 
-<main class="container">
-    <section class='shop-cart'>
+    <div class="login_main_forms">
+        <form class="auth__form" th:action="@{/auth}" method="post">
 
-        <div class="shop-cart__line">
-            <h3 class="shop-cart__heading">ОПИСАНИЕ ТОВАРА</h3>
-            <span class="shop-cart__heading shop-cart__heading-name">ЦЕНА</span>
-            <span class="shop-cart__heading shop-cart__heading-name">КОЛИЧЕСТВО</span>
-            <span class="shop-cart__heading shop-cart__heading-name">ДОСТАВКА</span>
-            <span class="shop-cart__heading shop-cart__heading-name">ПОДИТОГ</span>
-            <span class="shop-cart__heading shop-cart__heading-name">УДАЛИТЬ</span>
-        </div>
+            <fieldset class="shipping__logIn">
+                <legend class="shipping__text_fontSize13Dark">УЖЕ ЗАРЕГИСТРИРОВАНЫ?</legend>
 
+                <p class="shipping__text_fontSize13Light">Пожалуйста, войдите в свой профиль:</p>
 
-        <div class="js-cart"></div>
+                <p class="wrong-password-letter" th:if="${param.error}">Неверное имя пользователя или пароль</p>
 
-        <div class="shop-cart__buttons">
-            <a href="/cart/clear">
-                <button class="shop-cart__btn-clear js-clear">ОЧИСТИТЬ КОРЗИНУ</button>
-            </a>
-            <a href="/products">
-                <button class="shop-cart__btn-continue">ПРОДОЛЖИТЬ ПОКУПКИ</button>
-            </a>
-        </div>
-    </section>
+                <p class="shipping__mail_mrg shipping__text_fontSize12Dark">EMAIL:<span
+                        class="shipping_textSpec">*</span></p>
 
-    <section class="ordering">
-        <div class="ordering__total">
-            <div class="ordering__grandtotal-wrapper">
-                <h3 class="ordering__grandtotal">ИТОГО</h3>
-                <span class="ordering__sum total"></span>
-                <span class="ordering__sum currency">РУБ</span>
-            </div>
-            <a href="/cart/ordering">
-                <button class="ordering__proceed-btn" type="submit">ОФОРМИТЬ ЗАКАЗ</button>
-            </a>
-        </div>
-    </section>
+                <input type="email" name="username"
+                       class="shipping__emailInput shipping__emailInput_mgTop mail_fontSize12Dark" required>
+
+                <p class="shipping_password_mgTop shipping__text_fontSize12Dark">ПАРОЛЬ<span
+                        class="shipping_textSpec">*</span></p>
+
+                <input type="password" name="password"
+                       class="shipping__passwordInput shipping__passwordInput_mgTop shipping__text_fontSize12Dark"
+                       required>
+
+                <p class="shipping_requiredFields_mgTop shipping__text_fontColored">* Обязательные поля</p>
+
+                <button class="shipping__button shipping__button_fontSize14Dark shipping__buttonLogIn_mgTop"
+                        type="submit">ВХОД
+                </button>
+                <a href="#" class="shipping_forgotLink shipping_forgotLink_mrgLeft shipping__text_fontSize14Dark">Забыли
+                    пароль?</a>
+            </fieldset>
+
+        </form>
+
+        <form class="registration registration_mrg" action="/auth/registration" method="post">
+            <fieldset class="registration__wrap">
+                <legend class="registration__h2">ФОРМА ДЛЯ РЕГИСТРАЦИИ</legend>
+                <p class="shipping__text_fontSize13Light">Пожалуйста, заполните информацию ниже:</p>
+
+                <p class="registration__text registration__text_dark">ИМЯ<span class="shipping_textSpec">*</span></p>
+                <input type="text" name="name"
+                       class="shipping__passwordInput shipping__passwordInput_mgTop shipping__text_fs12DarkLow"
+                       required>
+
+                <p class="registration__text registration__text_dark">ФАМИЛИЯ<span class="shipping_textSpec">*</span>
+                </p>
+                <input type="text" name="surname"
+                       class="shipping__passwordInput shipping__passwordInput_mgTop shipping__text_fs12DarkLow"
+                       required>
+
+                <p class="registration__text registration__text_dark">EMAIL АДРЕС (логин)<span
+                        class="shipping_textSpec">*</span></p>
+                <input type="email" name="email"
+                       class="shipping__emailInput shipping__emailInput_mgTop shipping__text_fs12DarkLow" required>
+
+                <p class="registration__text registration__text_dark">ПАРОЛЬ<span class="shipping_textSpec">*</span>
+                </p>
+                <input type="password" name="password"
+                       class="shipping__passwordInput shipping__passwordInput_mgTop shipping__text_fs12DarkLow"
+                       required>
+
+                <p class="registration__text registration__text_dark">ТЕЛЕФОН<span class="shipping_textSpec"></span></p>
+                <input type="text" name="phone"
+                       class="shipping__passwordInput shipping__passwordInput_mgTop shipping__text_fs12DarkLow">
+
+                <p class="registration__text registration__text_dark">АДРЕС ДЛЯ ДОСТАВКИ<span
+                        class="shipping_textSpec">*</span></p>
+                <input type="text" name="address"
+                       class="shipping__passwordInput shipping__passwordInput_mgTop shipping__text_fs12DarkLow"
+                       required>
+
+                <p class="shipping_requiredFields_mgTop shipping__text_fontColored">* Обязательные поля</p>
+
+                <button class="shipping__button shipping__button_fontSize14Dark shipping__buttonLogIn_mgTop"
+                        type="submit">ЗАРЕГИСТРИРОВАТЬСЯ
+                </button>
+
+            </fieldset>
+        </form>
+    </div>
 </main>
 
 
@@ -138,7 +183,7 @@
 </footer>
 
 <script src="/js/functions.js"></script>
-<script src="/js/cart.js"></script>
+<script src="/js/catalog.js"></script>
 
 </body>
 </html>

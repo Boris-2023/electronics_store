@@ -7,7 +7,7 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @Entity
-@Table(name = "users")
+@Table(name = "users", uniqueConstraints = @UniqueConstraint(columnNames = "email"))
 public class User {
     public static final String ROLE_ADMIN = "ADMIN";
     public static final String ROLE_USER = "USER";
@@ -29,14 +29,14 @@ public class User {
     private String address;
 
     // used as login
-    @Column(length = 50, nullable = false)
+    @Column(length = 50, nullable = false, unique = true)
     private String email;
 
     // password
-    @Column(name = "pwd",length = 50, nullable = false)
+    @Column(name = "pwd", nullable = false)
     private String password;
 
     @Column(name = "user_role", length = 10, nullable = false)
-    private String userRole;
+    private String role;
 
 }

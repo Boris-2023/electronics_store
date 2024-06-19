@@ -1,5 +1,7 @@
 <!DOCTYPE html>
-<html lang="ru">
+<html lang="ru"
+      xmlns:th="https://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width">
@@ -35,18 +37,6 @@
                 </button>
             </form>
         </div>
-        <!------>
-
-
-        <div class="header__user-btn">
-            <a href="/auth" class="header__hrefUser">
-                <div class="header__user">Клиент</div>
-            </a>
-            <a href="/auth/logout">
-                <button type="submit" class="sign-out"><i class="fa-solid fa-arrow-right-from-bracket fa-xl"></i>
-                </button>
-            </a>
-        </div>
 
 
         <div class="header__buttons">
@@ -58,12 +48,33 @@
                     </svg>
                 </div>
             </a>
-            <a href="/auth">
-                <button class="header__btn-account">Профиль</button>
+            <a sec:authorize="!isAuthenticated()" href="/auth">
+                <button class="header__btn-account">
+                    <div class="header__profile-btn">
+                        <span class="header__text-btn">Вход</span>
+                        <i class="fa-solid fa-right-to-bracket fa-xl icon-enter"></i>
+                    </div>
+                </button>
             </a>
+            <a sec:authorize="isAuthenticated()" href="/logout">
+                <button class="header__btn-account">
+                    <div class="header__profile-btn">
+                        <span class="header__text-btn">Выход</span>
+                        <i class="fa-solid fa-right-from-bracket fa-xl"></i>
+                    </div>
+                </button>
+            </a>
+
         </div>
     </div>
+    <div class="header__user-wrap container">
+        <a sec:authorize="!isAuthenticated()" class="header__user">Неавторизован</a>
+        <a sec:authorize="isAuthenticated()">
+            <a class="header__user" sec:authentication="principal.username"></a>
+        </a>
+    </div>
 </header>
+
 
 <div th:class="${!product.equals(null)} ? 'display-none' : 'text-out'">Нет товара для отображения</div>
 
@@ -109,7 +120,7 @@
         <p class="footer-main__info">Чтобы быть сильным, надо быть как вода. Нет препятствий — она течёт; плотина — она
             остановится;
             прорвётся плотина — она снова потечёт; в четырёхугольном сосуде она четырёхугольна; в круглом — кругла.
-            Оттого, что она так уступчива, она нужнее всего и сильнее всего.</p>
+            Оттого, что она так уступчива, она нужнее всего и сильнее всего. Лао-цзы</p>
     </div>
 
 </footer>
