@@ -26,7 +26,7 @@
             <div class="logo__img"></div>
             <span class="logo__letters">
                     Best<span class="logo__special-letter">Electronics</span>
-                </span>
+            </span>
         </a>
         <!------>
         <div class="header__browse-search">
@@ -68,7 +68,7 @@
         </div>
     </div>
     <div class="header__user-wrap container">
-        <a sec:authorize="!isAuthenticated()" class="header__user">Неавторизован</a>
+        <a sec:authorize="!isAuthenticated()" class="header__user-transparent">Guest</a>
         <a sec:authorize="isAuthenticated()">
             <a class="header__user" sec:authentication="principal.username"></a>
         </a>

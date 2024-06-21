@@ -959,6 +959,12 @@ body {
     font-weight: bold;
 }
 
+.header__user-transparent {
+    color: transparent;
+    font-size: 20px;
+    font-weight: bold;
+}
+
 .header__user-wrap {
     display: flex;
     justify-content: end;

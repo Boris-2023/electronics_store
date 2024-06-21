@@ -14,8 +14,8 @@ import java.util.Set;
 public class AuthHandler implements AuthenticationSuccessHandler {
     @Override
     public void onAuthenticationSuccess(jakarta.servlet.http.HttpServletRequest request,
-                              jakarta.servlet.http.HttpServletResponse response,
-                              Authentication authentication) throws IOException {
+                                        jakarta.servlet.http.HttpServletResponse response,
+                                        Authentication authentication) throws IOException {
 
         // получаем роли (у пользователя их м.б. много) в аутентификации и передаем их в сет
         Set<String> roles = AuthorityUtils.authorityListToSet(authentication.getAuthorities());

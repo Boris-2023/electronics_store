@@ -22,7 +22,7 @@ public class ApiController {
     @PostMapping("/products")
     public ResponseEntity<List<Product>> getProductsByIds(@RequestBody(required = false) List<Long> ids) {
         if (!ids.isEmpty()) {
-            System.out.println("\nHello from API controller: " + ids + " <- received as " + ids.getClass().getSimpleName() + "\n");
+            //System.out.println("\nHello from API controller: " + ids + " <- received as " + ids.getClass().getSimpleName() + "\n");
             return new ResponseEntity<>(service.getProductsByIds(ids), HttpStatus.OK);
         } else {
             return ResponseEntity.status(HttpStatus.NO_CONTENT).build();

@@ -68,7 +68,7 @@
         </div>
     </div>
     <div class="header__user-wrap container">
-        <a sec:authorize="!isAuthenticated()" class="header__user">Неавторизован</a>
+        <a sec:authorize="!isAuthenticated()" class="header__user-transparent">Guest</a>
         <a sec:authorize="isAuthenticated()">
             <a class="header__user" sec:authentication="principal.username"></a>
         </a>

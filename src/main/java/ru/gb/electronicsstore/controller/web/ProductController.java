@@ -37,30 +37,15 @@ public class ProductController {
 
         model.addAttribute("products", service.getProductsByText(search));
         model.addAttribute("value", search);
-        model.addAttribute("auth", true);
 
         return "products";
     }
 
-    @GetMapping("/auth")
-    public String getLoginPage(Model model, @RequestParam(defaultValue = "") String search) {
-
-        model.addAttribute("products", service.getProductsByText(search));
-        model.addAttribute("value", search);
-        //model.addAttribute("auth", true);
-
-        return "auth";
-    }
-
     // return a list of products based on id numbers provided
     @GetMapping("/cart")
-    public String getProductsByIds(Model model) {
+    public String getProductsByIds() {
 
-        System.out.println("\nHello from WEB controller\n");
-
-        model.addAttribute("products", service.getProductsByIds(List.of(1L, 2L)));
-//        model.addAttribute("products", service.getProductsByIds(ids));
-//        model.addAttribute("auth", true);
+        //System.out.println("\nHello from WEB controller\n");
 
         return "cart";
     }
