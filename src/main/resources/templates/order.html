@@ -26,7 +26,7 @@
             <div class="logo__img"></div>
             <span class="logo__letters">
                     Best<span class="logo__special-letter">Electronics</span>
-                </span>
+            </span>
         </a>
         <!------>
         <div class="header__browse-search">
@@ -75,50 +75,8 @@
     </div>
 </header>
 
-
-<main class="container">
-
-    <section class='shop-cart'>
-
-        <div class="shop-cart__line">
-            <h3 class="shop-cart__heading">ОПИСАНИЕ ТОВАРА</h3>
-            <span class="shop-cart__heading shop-cart__heading-name">ЦЕНА</span>
-            <span class="shop-cart__heading shop-cart__heading-name">КОЛИЧЕСТВО</span>
-            <span class="shop-cart__heading shop-cart__heading-name">ДОСТАВКА</span>
-            <span class="shop-cart__heading shop-cart__heading-name">ПОДИТОГ</span>
-            <span class="shop-cart__heading shop-cart__heading-name">УДАЛИТЬ</span>
-        </div>
-
-
-        <div class="js-cart"></div>
-
-        <p class="wrong-password-letter" th:if="${param.empty_cart}">Ваша корзина пуста!</p>
-
-        <div class="shop-cart__buttons">
-            <a href="/cart">
-                <button class="confirm__button js-clear">ОЧИСТИТЬ КОРЗИНУ</button>
-            </a>
-            <a href="/products">
-                <button class="confirm__button">ПРОДОЛЖИТЬ ПОКУПКИ</button>
-            </a>
-        </div>
-    </section>
-
-    <section class="ordering">
-        <div class="ordering__total">
-            <div class="ordering__grandtotal-wrapper">
-                <h3 class="ordering__grandtotal">ИТОГО</h3>
-                <span class="ordering__sum total">0</span>
-                <span class="ordering__sum currency">РУБ</span>
-            </div>
-        </div>
-
-        <div th:switch="${#authentication} ? ${#authorization.expression('isAuthenticated()')} : ${false}">
-            <a th:case="${true}" class="ordering__order-btn js-order">ОФОРМИТЬ ЗАКАЗ</a>
-            <a th:case="${false}" class="ordering__order-btn" href="/auth">ОФОРМИТЬ ЗАКАЗ</a>
-        </div>
-
-    </section>
+<main class="order-page">
+    ORDER HERE!!!
 </main>
 
 
@@ -143,9 +101,8 @@
     <span class="footer-end__copy-right">&copy; 2024 BestElectronics All Rights Reserved</span>
 </footer>
 
-<script src="/js/functions.js"></script>
-<script src="/js/cart.js"></script>
-<script src="/js/order.js"></script>
+<!--<script src="/js/functions.js"></script>-->
+<!--<script src="/js/card.js"></script>-->
 
 </body>
 </html>

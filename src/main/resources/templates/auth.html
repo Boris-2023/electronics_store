@@ -103,56 +103,66 @@
 
                 <p class="shipping_requiredFields_mgTop shipping__text_fontColored">* Обязательные поля</p>
 
-                <button class="shipping__button shipping__button_fontSize14Dark shipping__buttonLogIn_mgTop"
+                <button class="confirm__button"
                         type="submit">ВХОД
                 </button>
-                <a href="#" class="shipping_forgotLink shipping_forgotLink_mrgLeft shipping__text_fontSize14Dark">Забыли
-                    пароль?</a>
+
             </fieldset>
 
         </form>
 
-        <form class="registration registration_mrg" action="/auth/registration" method="post">
+        <!--        <form class="registration registration_mrg" action="/auth/registration" method="post">-->
+        <form class="registration registration_mrg" th:action="@{/auth/registration}" method="post">
+
             <fieldset class="registration__wrap">
                 <legend class="registration__h2">ФОРМА ДЛЯ РЕГИСТРАЦИИ</legend>
                 <p class="shipping__text_fontSize13Light">Пожалуйста, заполните информацию ниже:</p>
 
                 <p class="registration__text registration__text_dark">ИМЯ<span class="shipping_textSpec">*</span></p>
-                <input type="text" name="name"
+                <!--                <input type="text" name="firstName"-->
+                <input type="text" th:name="firstName"
                        class="shipping__passwordInput shipping__passwordInput_mgTop shipping__text_fs12DarkLow"
                        required>
 
                 <p class="registration__text registration__text_dark">ФАМИЛИЯ<span class="shipping_textSpec">*</span>
                 </p>
-                <input type="text" name="surname"
+                <!--                <input type="text" name="lastName"-->
+                <input type="text" th:name="lastName"
                        class="shipping__passwordInput shipping__passwordInput_mgTop shipping__text_fs12DarkLow"
                        required>
 
                 <p class="registration__text registration__text_dark">EMAIL АДРЕС (логин)<span
                         class="shipping_textSpec">*</span></p>
-                <input type="email" name="email"
+<!--                <input type="email" name="email"-->
+
+                <p class="wrong-password-letter" th:if="${param.reg_error}">Пользователь с таким адресом email уже зарегестрирован!</p>
+
+                <input type="text" th:name="email"
                        class="shipping__emailInput shipping__emailInput_mgTop shipping__text_fs12DarkLow" required>
 
                 <p class="registration__text registration__text_dark">ПАРОЛЬ<span class="shipping_textSpec">*</span>
                 </p>
-                <input type="password" name="password"
+<!--                <input type="password" name="password"-->
+                <input type="text" th:name="password"
                        class="shipping__passwordInput shipping__passwordInput_mgTop shipping__text_fs12DarkLow"
                        required>
 
                 <p class="registration__text registration__text_dark">ТЕЛЕФОН<span class="shipping_textSpec"></span></p>
-                <input type="text" name="phone"
+<!--                <input type="text" name="phone"-->
+                <input type="text" th:name="phone"
                        class="shipping__passwordInput shipping__passwordInput_mgTop shipping__text_fs12DarkLow">
 
                 <p class="registration__text registration__text_dark">АДРЕС ДЛЯ ДОСТАВКИ<span
                         class="shipping_textSpec">*</span></p>
-                <input type="text" name="address"
+<!--                <input type="text" name="address"-->
+                <input type="text" th:name="address"
                        class="shipping__passwordInput shipping__passwordInput_mgTop shipping__text_fs12DarkLow"
                        required>
 
                 <p class="shipping_requiredFields_mgTop shipping__text_fontColored">* Обязательные поля</p>
 
-                <button class="shipping__button shipping__button_fontSize14Dark shipping__buttonLogIn_mgTop"
-                        type="submit">ЗАРЕГИСТРИРОВАТЬСЯ
+                <button class="confirm__button"
+                        type="submit">РЕГИСТРАЦИЯ
                 </button>
 
             </fieldset>

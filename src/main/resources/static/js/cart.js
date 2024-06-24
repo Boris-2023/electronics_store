@@ -1,19 +1,4 @@
 'use strict';
-
-const products = [
-    {
-        id: 1,
-        model: 'Apple 15',
-        price: '15500.0'
-    },
-
-    {
-        id: 2,
-        model: 'Apple 14',
-        price: '55.0'
-    },
-]
-
 class Item {
     rendered = false;
 

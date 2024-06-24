@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import ru.gb.electronicsstore.domain.Product;
 import ru.gb.electronicsstore.service.ProductService;
 
+import java.util.LinkedHashMap;
 import java.util.List;
 
 @org.springframework.web.bind.annotation.RestController
@@ -22,8 +23,18 @@ public class ApiController {
     @PostMapping("/products")
     public ResponseEntity<List<Product>> getProductsByIds(@RequestBody(required = false) List<Long> ids) {
         if (!ids.isEmpty()) {
-            //System.out.println("\nHello from API controller: " + ids + " <- received as " + ids.getClass().getSimpleName() + "\n");
             return new ResponseEntity<>(service.getProductsByIds(ids), HttpStatus.OK);
+        } else {
+            return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+        }
+    }
+
+    @PostMapping("/order")
+    public ResponseEntity<List<Product>> makeNewOrder(@RequestBody LinkedHashMap<Long, Long> orderContent) {
+        if (!orderContent.isEmpty()) {
+            System.out.println("\nHello from API controller: " + orderContent + " <- received as " + orderContent.getClass().getSimpleName() + "\n");
+            //return new ResponseEntity<>(service.getProductsByIds(ids), HttpStatus.OK);
+            return ResponseEntity.status(HttpStatus.OK).build();
         } else {
             return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
         }
