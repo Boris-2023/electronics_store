@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="ru"
+      xmlns:th="https://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width">
+    <title>BestElectronics</title>
+    <script src="https://use.fontawesome.com/95b86417ef.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.2/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400&display=swap"
+          rel="stylesheet">
+    <link th:href="@{/styles/style.css}" rel="stylesheet"/>
+    <link th:href="@{/styles/norm.css}" rel="stylesheet"/>
+
+</head>
+
+<body>
+<div th:fragment="footer">
+    <div class="footer-main footer-main_mrg container">
+        <div class="footer-main__text">
+            <a class="logo header__logo" href="#">
+                <div class="logo__img"></div>
+                <span class="logo__letters">
+                    Best<span class="logo__special-letter">Electronics</span>
+            </span>
+            </a>
+
+            <p class="footer-main__info">Чтобы быть сильным, надо быть как вода. Нет препятствий — она течёт; плотина —
+                она
+                остановится;
+                прорвётся плотина — она снова потечёт; в четырёхугольном сосуде она четырёхугольна; в круглом — кругла.
+                Оттого, что она так уступчива, она нужнее всего и сильнее всего. Лао-цзы</p>
+        </div>
+
+    </div>
+
+    <div class="footer-end">
+        <span class="footer-end__copy-right">&copy; 2024 BestElectronics All Rights Reserved</span>
+    </div>
+</div>
+</body>
+</html>

@@ -15,7 +15,6 @@ if (btn) {
     })
 }
 
-
 async function makeOrder(cart) {
 
     try {
@@ -26,12 +25,13 @@ async function makeOrder(cart) {
             },
             body: JSON.stringify(cart)
         });
-        console.log(window.location.href, response)
         if (response.ok) {
             clearLocalStorage();
+            window.location.href = '/cart/order'
+        } else {
+            window.location.href = '/cart$order_fail'
         }
 
-        //window.location.href = 'http://localhost:8000/cart/order'
     } catch (err) {
         console.warn(err);
     }

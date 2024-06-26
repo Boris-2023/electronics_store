@@ -1,24 +1,36 @@
 package ru.gb.electronicsstore.domain;
 
-
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import ru.gb.electronicsstore.domain.enums.OrderStatus;
+
+import java.io.Serializable;
+import java.sql.Timestamp;
 
 @Data
 @NoArgsConstructor
 @Entity
 @Table(name = "orders")
-public class Order {
+public class Order implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-//    private Date orderDate;
-//    private double amount;
-//
-//    @ManyToOne
-//    @JoinColumn(name = "user_id", nullable = false, //
-//    foreignKey = @ForeignKey(name = "ORDER_DETAIL_ORD_FK") )
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "user_id", referencedColumnName = "id", nullable = false)
+    private User user;
+
+    @Column(nullable = false)
+    private double amount;
+
+    @Column(name = "date_order", nullable = false)
+    private Timestamp orderDate;
+
+    @Column(name = "status_order", length = 50, nullable = false)
+    private String status;
+
+    @Column(name = "date_update", nullable = false)
+    private Timestamp lastUpdated;
 }

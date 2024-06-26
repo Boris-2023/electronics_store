@@ -1,6 +1,6 @@
 'use strict';
 
-const LS_KEY = 'shopb';
+const LS_KEY = 'store';
 
 if (getCart()) setQuantity();
 

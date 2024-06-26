@@ -50,7 +50,7 @@ class Item {
 				<span class="shop-cart__data">БЕСПЛАТНО</span>
 				<span class="shop-cart__data shop-cart__price subtotal">${this.quantity * this.price}</span>
 				<button class="shop-cart__delete-wrapper js-dlt" data-id = "${this.id_product}">
-						<svg class="cart__delete js-dlt" data-id = "${this.id_product}" fill="currentColor" height="15" width="15" viewBox="0 0 512 512">
+						<svg class="cart__delete js-dlt" data-id = "${this.id_product}" fill="currentColor" height="22" width="22" viewBox="0 0 512 512">
 						<path class="js-dlt" data-id = "${this.id_product}" d="M256 8C119 8 8 119 8 256s111 248 248 248 248-111 248-248S393 8 256 8zm121.6 313.1c4.7 4.7 4.7 12.3 0 17L338 377.6c-4.7 4.7-12.3 4.7-17 0L256 312l-65.1 65.6c-4.7 4.7-12.3 4.7-17 0L134.4 338c-4.7-4.7-4.7-12.3 0-17l65.6-65-65.6-65.1c-4.7-4.7-4.7-12.3 0-17l39.6-39.6c4.7-4.7 12.3-4.7 17 0l65 65.7 65.1-65.6c4.7-4.7 12.3-4.7 17 0l39.6 39.6c4.7 4.7 4.7 12.3 0 17L312 256l65.6 65.1z"></path></svg>
 				</button>
 		</div>
