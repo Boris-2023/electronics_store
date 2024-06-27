@@ -39,10 +39,9 @@ public class ApiController {
         if (!orderContent.isEmpty()) {
 
             String userName = SecurityContextHolder.getContext().getAuthentication().getName();
-            Long userId = userService.getUserByEmail(userName).orElse(null).getId();
-            // System.out.println("\nHello from API controller: " + orderContent + " <- received as " + orderContent.getClass().getSimpleName() + "\n");
 
-            boolean isCreated = orderService.makeNewOrder(orderContent, userId);
+            // userName == userEmail here
+            boolean isCreated = orderService.makeNewOrder(orderContent, userName);
 
             if(isCreated) {
                 return ResponseEntity.status(HttpStatus.OK).build();
