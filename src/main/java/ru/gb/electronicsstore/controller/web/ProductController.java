@@ -6,8 +6,6 @@ import org.springframework.web.bind.annotation.*;
 import ru.gb.electronicsstore.domain.Product;
 import ru.gb.electronicsstore.service.ProductService;
 
-import java.util.List;
-
 @org.springframework.stereotype.Controller
 @AllArgsConstructor
 public class ProductController {
@@ -25,7 +23,7 @@ public class ProductController {
     @GetMapping
     public String getAllProducts(Model model) {
 
-        model.addAttribute("products", service.getAllProducts());
+        model.addAttribute("products", service.getProductsInStockByText(""));
 
         return "products";
     }
@@ -35,7 +33,7 @@ public class ProductController {
     @GetMapping("/products")
     public String getProductsByText(Model model, @RequestParam(defaultValue = "") String search) {
 
-        model.addAttribute("products", service.getProductsByText(search));
+        model.addAttribute("products", service.getProductsInStockByText(search));
         model.addAttribute("value", search);
 
         return "products";
@@ -44,8 +42,6 @@ public class ProductController {
     // return a list of products based on id numbers provided
     @GetMapping("/cart")
     public String getProductsByIds() {
-
-        //System.out.println("\nHello from WEB controller\n");
 
         return "cart";
     }

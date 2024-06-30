@@ -28,14 +28,14 @@
     <div class="h3 text-center fw-bolder">
         Заказ № <span th:text="' ' + ${order_number}"></span>
     </div>
-    <div class="h5">
+    <div class="h4">
         <span class="fw-bold">Дата оформления: </span>
         <span th:text="' ' + ${order_date}"></span>
     </div>
 
     <hr/>
 
-    <div class="h5 fw-bold">
+    <div class="h4 fw-bold">
         Состав заказа:
     </div>
 
@@ -68,13 +68,13 @@
 
     <hr/>
 
-    <div class="h5 fw-bold">
+    <div class="h4 fw-bold">
         Покупатель:
     </div>
 
     <table class="table d-flex">
 
-        <tbody class="h6">
+        <tbody class="h5">
         <tr>
             <td class="fw-bold">Имя:</td>
             <td th:text="${customer}"/>
@@ -96,13 +96,28 @@
 
     <hr/>
 
-    <a class="ordering__order-btn" href="pay.html">
-        ОПЛАТИТЬ ЗАКАЗ
-    </a>
+    <th:block th:if="${payment}>0">
+        <span class="success__message"> ЗАКАЗ ОПЛАЧЕН!</span>
+        <div class="h4 fw-bold" th:text="'Код платежа: ' + ${payment}"></div>
+    </th:block>
+
+    <th:block th:if="${payment}<=0">
+        <th:block th:if="${payment}<0">
+            <a class="fail-message-letter">ОПЛАТА НЕ ПРОШЛА!</a>
+        </th:block>
+        <a class="ordering__order-btn" th:onclick="makePayment([[${email}]], [[${order_number}]],[[${order_amount}]])">
+            ОПЛАТИТЬ ЗАКАЗ
+        </a>
+    </th:block>
+
 
 </main>
 
 <div th:insert="~{fragments/footer :: footer}"></div>
+
+<script th:inline="javascript" src="/js/payment.js">
+
+</script>
 
 </body>
 </html>

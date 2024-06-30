@@ -1,7 +1,6 @@
 package ru.gb.electronicsstore.service;
 
 import lombok.AllArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ru.gb.electronicsstore.domain.Product;
 import ru.gb.electronicsstore.repository.ProductRepository;
@@ -30,10 +29,10 @@ public class ProductService {
                 .toList();
     }
 
-    public List<Product> getProductsByText(String text) {
+    public List<Product> getProductsInStockByText(String text) {
         final String testString = text.replace(" ", "").toLowerCase();
         return repository.findAll().stream()
-                .filter(x -> (x.getName() + x.getManufacturer() + x.getModel()).toLowerCase().contains(testString))
+                .filter(x -> (x.getName() + x.getManufacturer() + x.getModel()).toLowerCase().contains(testString) && x.getQuantity()>0)
                 .toList();
     }
 

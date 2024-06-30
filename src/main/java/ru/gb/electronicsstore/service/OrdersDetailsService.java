@@ -1,5 +1,6 @@
 package ru.gb.electronicsstore.service;
 
+import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import ru.gb.electronicsstore.domain.OrdersDetails;
@@ -35,10 +36,12 @@ public class OrdersDetailsService {
 
             // price of the product, its qty and total price for this item
             values[0] = String.valueOf(product.getPrice());
+
             values[1] = String.valueOf(details.get(i).getQuantity());
             values[2] = String.valueOf((product.getPrice()) * (details.get(i).getQuantity()));
-
             products.put(product.getName() + " " + product.getManufacturer() + " " + product.getModel(), List.of(values));
+
+
         }
         return products;
     }

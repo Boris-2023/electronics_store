@@ -3,7 +3,6 @@ package ru.gb.electronicsstore.domain;
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import ru.gb.electronicsstore.domain.enums.OrderStatus;
 
 import java.io.Serializable;
 import java.sql.Timestamp;

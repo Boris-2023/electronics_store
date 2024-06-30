@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import ru.gb.electronicsstore.domain.Product;
+import ru.gb.electronicsstore.domain.dto.PaymentDTO;
 import ru.gb.electronicsstore.service.OrderService;
 import ru.gb.electronicsstore.service.ProductService;
 import ru.gb.electronicsstore.service.UserService;
@@ -22,7 +23,6 @@ public class ApiController {
 
     private ProductService productService;
     private OrderService orderService;
-    private UserService userService;
 
     // list of products by ids provided, POST request used as GET does not allow BODY inside
     @PostMapping("/products")
@@ -43,10 +43,27 @@ public class ApiController {
             // userName == userEmail here
             boolean isCreated = orderService.makeNewOrder(orderContent, userName);
 
-            if(isCreated) {
+            if (isCreated) {
                 return ResponseEntity.status(HttpStatus.OK).build();
-            } else{
+            } else {
                 return ResponseEntity.status(HttpStatus.I_AM_A_TEAPOT).build();
+            }
+        } else {
+            return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+        }
+    }
+
+    @PostMapping("/payment")
+    public ResponseEntity<Long> makePayment(@RequestBody PaymentDTO paymentDTO) {
+        if (paymentDTO != null) {
+
+            Long paymentReference = orderService.makePayment(paymentDTO);
+
+            if (paymentReference != -1) {
+                return new ResponseEntity<>(paymentReference, HttpStatus.OK);
+                //return new ResponseEntity<>(-1L, HttpStatus.OK);
+            } else {
+                return ResponseEntity.status(HttpStatus.valueOf("FAIL")).build();
             }
         } else {
             return ResponseEntity.status(HttpStatus.NO_CONTENT).build();

@@ -1,11 +1,13 @@
 package ru.gb.electronicsstore.service;
 
+import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import ru.gb.electronicsstore.domain.Order;
 import ru.gb.electronicsstore.domain.OrdersDetails;
 import ru.gb.electronicsstore.domain.Product;
 import ru.gb.electronicsstore.domain.User;
+import ru.gb.electronicsstore.domain.dto.PaymentDTO;
 import ru.gb.electronicsstore.domain.enums.OrderStatus;
 import ru.gb.electronicsstore.repository.OrderRepository;
 import ru.gb.electronicsstore.repository.OrdersDetailsRepository;
@@ -15,6 +17,7 @@ import ru.gb.electronicsstore.repository.UserRepository;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.util.*;
+import java.util.concurrent.ThreadLocalRandom;
 
 @Service
 @AllArgsConstructor
@@ -38,6 +41,14 @@ public class OrderService {
                 .orElseGet(null);
     }
 
+    public Order getMostRecentOrderByUserId(Long user_id) {
+        return orderRepository.findAll().stream()
+                .filter(x -> Objects.equals(x.getUser().getId(), user_id))
+                .reduce((first, second) -> second)
+                .orElseGet(null);
+    }
+
+    @Transactional
     public boolean makeNewOrder(LinkedHashMap<Long, Long> content, String userEmail) {
         Optional<User> userOptional = userRepository.findByEmail(userEmail);
 
@@ -60,9 +71,11 @@ public class OrderService {
                     oDetails.setProduct(product);
                     oDetails.setQuantity(content.get(key));
 
-                    detailsList.add(oDetails);
-
-                    amount += oDetails.getQuantity() * product.getPrice();
+                    // transfer products from stock to the order, adjust order qty if less in stock, false if product is out of stock
+                    if (transferProductsFromStockToOrder(product, oDetails)) {
+                        detailsList.add(oDetails);
+                        amount += oDetails.getQuantity() * product.getPrice();
+                    }
 
                 } else return false;
 
@@ -82,5 +95,45 @@ public class OrderService {
         } else return false;
 
         return true;
+    }
+
+    private boolean transferProductsFromStockToOrder(Product product, OrdersDetails currentDetails) {
+
+        // adjusts order details if there is no enough product qty in stock
+        if (currentDetails.getQuantity() > product.getQuantity()) currentDetails.setQuantity(product.getQuantity());
+
+        // product out of stock
+        if (currentDetails.getQuantity() == 0) return false;
+
+        product.setQuantity(product.getQuantity() - currentDetails.getQuantity());
+        productRepository.save(product);
+
+        return true;
+    }
+
+    @Transactional
+    public Long makePayment(PaymentDTO paymentDTO) {
+        //System.out.println("\nService gets PaymentDTO: " + paymentDTO);
+
+        Optional<User> userOptional = userRepository.findByEmail(paymentDTO.getUser());
+        Optional<Order> orderOptional = orderRepository.findById(paymentDTO.getOrder());
+
+        if (userOptional.isPresent() && orderOptional.isPresent()) {
+
+            // here will be the payment routine
+            long paymentReference = ThreadLocalRandom.current().nextLong(0, 10_000_000);
+
+            // check the payment is succeeded - here 10% fail as a dummy
+            if (paymentReference > 1_000_000) {
+                Order order = orderOptional.get();
+
+                order.setStatus(OrderStatus.PAID.name());
+                order.setLastUpdated(Timestamp.valueOf(LocalDateTime.now()));
+                orderRepository.save(order);
+
+                return paymentReference;
+            }
+        }
+        return -1L;
     }
 }
