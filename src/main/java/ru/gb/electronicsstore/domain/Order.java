@@ -32,4 +32,7 @@ public class Order implements Serializable {
 
     @Column(name = "date_update", nullable = false)
     private Timestamp lastUpdated;
+
+    @Column(name="payment_reference", nullable = false)
+    private Long paymentReference = 0L;
 }

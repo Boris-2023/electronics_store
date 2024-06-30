@@ -14,14 +14,10 @@ body {
     display: none;
 }
 
-.header-wrapper {
-    border-bottom: 1px solid #f8f8f8;
-}
-
 .header {
     display: flex;
     align-items: center;
-    height: 80px;
+    height: 70px;
     position: relative;
     justify-content: space-between;
 }
@@ -116,7 +112,7 @@ body {
     cursor: pointer;
 }
 
-.search-form__input:focus{
+.search-form__input:focus {
     outline-color: #729fcf;
 }
 
@@ -152,6 +148,7 @@ body {
     padding-bottom: 1.5em;
     border-bottom: 1px solid #eee;
 }
+
 .cart__delete {
     fill: #ec5959;
     cursor: pointer;
@@ -437,6 +434,17 @@ body {
     margin-top: 5px;
 }
 
+.text_fontSize16Dark {
+    font-size: 16px;
+    color: rgb(34, 34, 34);
+    margin-top: 10px;
+}
+
+.text_fontSize16Light {
+    font-size: 16px;
+    color: rgb(134, 134, 134);
+    margin-top: 5px;
+}
 
 .text_fontSize13Dark,
 .registration__h2 {
@@ -639,12 +647,15 @@ body {
     color: #729fcf;
     font-size: 20px;
     font-weight: bold;
+    padding-bottom: 15px;
+    padding-right: 10px;
 }
 
 .header__user-transparent {
     color: transparent;
     font-size: 20px;
     font-weight: bold;
+    padding-bottom: 15px;
 }
 
 .header__user-wrap {

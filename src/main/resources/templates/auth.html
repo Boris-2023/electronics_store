@@ -1,7 +1,6 @@
 <!DOCTYPE html>
 <html lang="ru"
-      xmlns:th="https://www.thymeleaf.org">
-<head>
+      xmlns:th="https://www.thymeleaf.org"><head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width">
     <title>BestElectronics</title>
@@ -12,12 +11,14 @@
           rel="stylesheet">
     <link th:href="@{/styles/style.css}" rel="stylesheet"/>
     <link th:href="@{/styles/norm.css}" rel="stylesheet"/>
+    <link th:href="@{/styles/navbar.css}" rel="stylesheet"/>
 
 </head>
 
 <body>
 
 <div th:insert="~{fragments/header :: header}"></div>
+<div th:insert="~{fragments/navbar :: navbar}"></div>
 
 <main class="auth container">
 
@@ -25,13 +26,13 @@
         <form class="auth__form" th:action="@{/auth}" method="post">
 
             <fieldset class="shipping__logIn">
-                <legend class="text_fontSize14Dark">УЖЕ ЗАРЕГИСТРИРОВАНЫ?</legend>
+                <legend class="text_fontSize16Dark">УЖЕ ЗАРЕГИСТРИРОВАНЫ?</legend>
 
-                <p class="text_fontSize14Light">Пожалуйста, войдите в свой профиль:</p>
+                <p class="text_fontSize16Light">Пожалуйста, войдите в свой профиль:</p>
 
                 <p class="fail-message-letter" th:if="${param.error}">Неверное имя пользователя или пароль</p>
 
-                <p class="shipping__mail_mrg text_fontSize12Dark">EMAIL:<span
+                <p class="shipping__mail_mrg text_fontSize14Dark">EMAIL:<span
                         class="shipping_textSpec">*</span></p>
 
                 <input type="email" name="username"
@@ -58,8 +59,8 @@
         <form class="registration registration_mrg" th:action="@{/auth/registration}" method="post">
 
             <fieldset class="registration__wrap">
-                <legend class="text_fontSize14Dark">ФОРМА ДЛЯ РЕГИСТРАЦИИ</legend>
-                <p class="text_fontSize14Light">Пожалуйста, заполните информацию ниже:</p>
+                <legend class="text_fontSize16Dark">ФОРМА ДЛЯ РЕГИСТРАЦИИ</legend>
+                <p class="text_fontSize16Light">Пожалуйста, заполните информацию ниже:</p>
 
                 <p class="registration__text registration__text_dark">ИМЯ<span class="shipping_textSpec">*</span></p>
                 <!--                <input type="text" name="firstName"-->

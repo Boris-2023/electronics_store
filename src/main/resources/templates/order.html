@@ -16,100 +16,106 @@
 
     <link th:href="@{/styles/style.css}" rel="stylesheet"/>
     <link th:href="@{/styles/norm.css}" rel="stylesheet"/>
+    <link th:href="@{/styles/navbar.css}" rel="stylesheet"/>
 
 </head>
 
 <body>
 
 <div th:insert="~{fragments/header :: header}"></div>
+<div th:insert="~{fragments/navbar :: navbar}"></div>
 
 <main class="container">
 
-    <div class="h3 text-center fw-bolder">
-        Заказ № <span th:text="' ' + ${order_number}"></span>
-    </div>
-    <div class="h4">
-        <span class="fw-bold">Дата оформления: </span>
-        <span th:text="' ' + ${order_date}"></span>
-    </div>
+    <p class="fail-message-letter" th:if="${order_number}<0">У ВАС ПОКА НЕТ ЗАКАЗОВ</p>
 
-    <hr/>
+    <div th:if="${order_number}>0">
+        <div class="h2 text-center fw-bolder">
+            Заказ № <span th:text="' ' + ${order_number}"></span>
+        </div>
+        <div class="h4">
+            <span class="fw-bold">Дата оформления: </span>
+            <span th:text="' ' + ${order_date}"></span>
+        </div>
 
-    <div class="h4 fw-bold">
-        Состав заказа:
-    </div>
+        <hr/>
 
-    <table class="table table-striped border-black border-start border-end">
+        <div class="h4 fw-bold">
+            Состав заказа:
+        </div>
 
-        <thead class="table-dark fw-bold text-end">
-        <tr>
-            <th class="text-center">Товар</th>
-            <th>Цена</th>
-            <th>Количество</th>
-            <th>Стоимость</th>
-        </tr>
-        </thead>
-        <tbody>
-        <tr th:each="product: ${products}">
-            <td th:text="${product.key}"/>
-            <td class="text-end" th:text="${product.value[0]}"/>
-            <td class="text-end" th:text="${product.value[1]}"/>
-            <td class="text-end" th:text="${product.value[2]}"/>
-        </tr>
+        <table class="table table-striped border-black border-start border-end">
 
-        </tbody>
-        <tfoot class="fw-bold text-end border-top border-bottom border-black">
-        <td>
-        <td></td>
-        <td>ИТОГО, рублей:</td>
-        <td th:text="${order_amount}">
-        </tfoot>
-    </table>
+            <thead class="table-dark fw-bold text-end">
+            <tr>
+                <th class="text-center">Товар</th>
+                <th>Цена</th>
+                <th>Количество</th>
+                <th>Стоимость</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="product: ${products}">
+                <td th:text="${product.key}"/>
+                <td class="text-end" th:text="${product.value[0]}"/>
+                <td class="text-end" th:text="${product.value[1]}"/>
+                <td class="text-end" th:text="${product.value[2]}"/>
+            </tr>
 
-    <hr/>
+            </tbody>
+            <tfoot class="fw-bold text-end border-top border-bottom border-black">
+            <td>
+            <td></td>
+            <td>ИТОГО, рублей:</td>
+            <td th:text="${order_amount}">
+            </tfoot>
+        </table>
 
-    <div class="h4 fw-bold">
-        Покупатель:
-    </div>
+        <hr/>
 
-    <table class="table d-flex">
+        <div class="h4 fw-bold">
+            Покупатель:
+        </div>
 
-        <tbody class="h5">
-        <tr>
-            <td class="fw-bold">Имя:</td>
-            <td th:text="${customer}"/>
-        </tr>
-        <tr>
-            <td class="fw-bold">email:</td>
-            <td th:text="${email}"/>
-        </tr>
-        <tr>
-            <td class="fw-bold">Телефон:</td>
-            <td th:text="${phone}"/>
-        </tr>
-        <tr>
-            <td class="fw-bold">Адрес доставки:</td>
-            <td th:text="${address}"/>
-        </tr>
-        </tbody>
-    </table>
+        <table class="table d-flex">
 
-    <hr/>
+            <tbody class="h5">
+            <tr>
+                <td class="fw-bold">Имя:</td>
+                <td th:text="${customer}"/>
+            </tr>
+            <tr>
+                <td class="fw-bold">email:</td>
+                <td th:text="${email}"/>
+            </tr>
+            <tr>
+                <td class="fw-bold">Телефон:</td>
+                <td th:text="${phone}"/>
+            </tr>
+            <tr>
+                <td class="fw-bold">Адрес доставки:</td>
+                <td th:text="${address}"/>
+            </tr>
+            </tbody>
+        </table>
 
-    <th:block th:if="${payment}>0">
-        <span class="success__message"> ЗАКАЗ ОПЛАЧЕН!</span>
-        <div class="h4 fw-bold" th:text="'Код платежа: ' + ${payment}"></div>
-    </th:block>
+        <hr/>
 
-    <th:block th:if="${payment}<=0">
-        <th:block th:if="${payment}<0">
-            <a class="fail-message-letter">ОПЛАТА НЕ ПРОШЛА!</a>
+        <th:block th:if="${payment}>0">
+            <span class="success__message"> ЗАКАЗ ОПЛАЧЕН!</span>
+            <div class="h4 fw-bold" th:text="'Код платежа: ' + ${payment}"></div>
         </th:block>
-        <a class="ordering__order-btn" th:onclick="makePayment([[${email}]], [[${order_number}]],[[${order_amount}]])">
-            ОПЛАТИТЬ ЗАКАЗ
-        </a>
-    </th:block>
 
+        <th:block th:if="${payment}<=0">
+            <th:block th:if="${payment}<0">
+                <span class="fail-message-letter">ОПЛАТА НЕ ПРОШЛА!</span>
+            </th:block>
+            <a class="ordering__order-btn"
+               th:onclick="makePayment([[${email}]], [[${order_number}]],[[${order_amount}]])">
+                ОПЛАТИТЬ ЗАКАЗ
+            </a>
+        </th:block>
+    </div>
 
 </main>
 

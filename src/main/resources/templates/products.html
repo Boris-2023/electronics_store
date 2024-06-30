@@ -12,12 +12,14 @@
           rel="stylesheet">
     <link th:href="@{/styles/style.css}" rel="stylesheet"/>
     <link th:href="@{/styles/norm.css}" rel="stylesheet"/>
+    <link th:href="@{/styles/navbar.css}" rel="stylesheet"/>
 
 </head>
 
 <body>
 
 <div th:insert="~{fragments/header :: header}"></div>
+<div th:insert="~{fragments/navbar :: navbar}"></div>
 
 <div th:class="${!products.isEmpty()} ? 'display-none' : 'text-out'">Товары не найдены</div>
 

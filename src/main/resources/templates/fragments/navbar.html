@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="https://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Navigation bar</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+    <link rel="stylesheet" th:href="@{/css/norm.css}">
+    <link rel="stylesheet" th:href="@{/css/navbar.css}">
+</head>
+<body>
+<div th:fragment="navbar" class="container">
+    <nav class="navbar__custom">
+        <span sec:authorize="hasRole('ADMIN')" class="navbar__name">Панель Администратора</span>
+        <span sec:authorize="!hasRole('ADMIN')" class="navbar__name">Лучший магазин электроники!</span>
+
+        <ul class="nav-links">
+            <li class="nav-item"><a href="/products">Главная</a></li>
+            <li class="nav-item"><a href="/cart">Корзина</a></li>
+            <li sec:authorize="!isAuthenticated()" class="nav-item"><a href="/auth">Регистрация</a></li>
+            <li sec:authorize="isAuthenticated()" class="nav-item">
+            <li sec:authorize="hasRole('USER')" class="nav-item"><a href="/cart/order">Заказ</a></li>
+            <li sec:authorize="hasRole('ADMIN')" class="nav-item"><a href="/admin/products">Товары</a></li>
+            <li sec:authorize="hasRole('ADMIN')" class="nav-item"><a href="/admin/users">Клиенты</a></li>
+            <li sec:authorize="hasRole('ADMIN')" class="nav-item"><a href="/admin/orders">Заказы</a></li>
+            </li>
+        </ul>
+    </nav>
+</div>
+</body>
+</html>

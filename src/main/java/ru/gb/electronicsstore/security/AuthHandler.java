@@ -22,7 +22,7 @@ public class AuthHandler implements AuthenticationSuccessHandler {
 
         // из response можно извлекать данные по сессии (кто куда заходил и т.д.), 'ROLE_ADMIN' - служ!: сама роль 'ADMIN'
         if (roles.contains("ROLE_ADMIN")) {
-            response.sendRedirect("/admin");
+            response.sendRedirect("/products");
         } else {
             response.sendRedirect("/cart");
         }

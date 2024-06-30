@@ -41,11 +41,10 @@ public class OrderService {
                 .orElseGet(null);
     }
 
-    public Order getMostRecentOrderByUserId(Long user_id) {
+    public Optional<Order> getMostRecentOrderByUserId(Long user_id) {
         return orderRepository.findAll().stream()
                 .filter(x -> Objects.equals(x.getUser().getId(), user_id))
-                .reduce((first, second) -> second)
-                .orElseGet(null);
+                .reduce((first, second) -> second);
     }
 
     @Transactional
@@ -81,7 +80,7 @@ public class OrderService {
 
             }
 
-            // fills in order
+            // fills in order data
             order.setUser(user);
             order.setAmount(amount);
             order.setOrderDate(Timestamp.valueOf(LocalDateTime.now()));
@@ -122,17 +121,21 @@ public class OrderService {
 
             // here will be the payment routine
             long paymentReference = ThreadLocalRandom.current().nextLong(0, 10_000_000);
+            Order order = orderOptional.get();
 
-            // check the payment is succeeded - here 10% fail as a dummy
-            if (paymentReference > 1_000_000) {
-                Order order = orderOptional.get();
+            // check the payment is succeeded - here 30% fail as a dummy
+            if (paymentReference > 3_000_000) {
 
                 order.setStatus(OrderStatus.PAID.name());
                 order.setLastUpdated(Timestamp.valueOf(LocalDateTime.now()));
-                orderRepository.save(order);
 
-                return paymentReference;
+            } else { // fails to pay
+                paymentReference = -1L;
             }
+            order.setPaymentReference(paymentReference);
+            orderRepository.save(order);
+
+            return paymentReference;
         }
         return -1L;
     }

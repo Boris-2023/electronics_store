@@ -14,6 +14,7 @@ import ru.gb.electronicsstore.service.UserService;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.Optional;
 
 @org.springframework.stereotype.Controller
 @AllArgsConstructor
@@ -25,23 +26,22 @@ public class OrderController {
     UserService userService;
 
     @GetMapping("/order")
-    public String displayNewOrder(Model model, @RequestParam(required = false) Long pay) {
+    public String displayOrder(Model model) {
 
         String userName = SecurityContextHolder.getContext().getAuthentication().getName();
         User user = userService.getUserByEmail(userName).orElse(null);
 
-        if(pay==null) pay=0L;
-
         if (user != null) {
-            Order order = orderService.getMostRecentOrderByUserId(user.getId());
-            if (order != null) {
+            Optional<Order> orderOptional = orderService.getMostRecentOrderByUserId(user.getId());
+            if (orderOptional.isPresent()) {
+                Order order = orderOptional.get();
 
                 // order
                 DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd, HH:mm");
                 model.addAttribute("order_number", order.getId());
                 model.addAttribute("order_date", dateFormat.format(order.getOrderDate()));
                 model.addAttribute("order_amount", order.getAmount());
-                model.addAttribute("payment", pay);
+                model.addAttribute("payment", order.getPaymentReference());
 
                 // products
                 model.addAttribute("products", ordersDetailsService.getProductsDataForOrderById(order.getId()));
@@ -52,6 +52,7 @@ public class OrderController {
                 model.addAttribute("address", user.getAddress());
                 model.addAttribute("email", userName);
             } else {
+                model.addAttribute("order_number", -1);
                 System.out.println("Order from WEB: No such ORDER!");
             }
         } else {

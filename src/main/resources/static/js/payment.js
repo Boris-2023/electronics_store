@@ -18,11 +18,13 @@ async function makePayment(email, order_number, order_amount) {
             body: JSON.stringify(payDTO)
         });
 
-        if (response.ok) {
-            window.location.href = '/cart/order?pay=' + await response.text();
-        } else {
-            window.location.href = '/cart/order?pay=-1'
-        }
+        // if (response.ok) {
+        //     window.location.href = '/cart/order?pay=' + await response.text();
+        // } else {
+        //     window.location.href = '/cart/order?pay=-1'
+        // }
+
+        window.location.href = '/cart/order';
 
     } catch (err) {
         console.warn(err);
