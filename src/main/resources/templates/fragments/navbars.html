@@ -14,8 +14,7 @@
 <body>
 <div th:fragment="navbar" class="container">
     <nav class="navbar__custom">
-        <span sec:authorize="hasRole('ADMIN')" class="navbar__name">Панель Администратора</span>
-        <span sec:authorize="!hasRole('ADMIN')" class="navbar__name">Лучший магазин электроники!</span>
+        <span class="navbar__name">Лучший магазин электроники!</span>
 
         <ul class="nav-links">
             <li class="nav-item"><a href="/products">Главная</a></li>
@@ -23,12 +22,22 @@
             <li sec:authorize="!isAuthenticated()" class="nav-item"><a href="/auth">Регистрация</a></li>
             <li sec:authorize="isAuthenticated()" class="nav-item">
             <li sec:authorize="hasRole('USER')" class="nav-item"><a href="/cart/order">Заказ</a></li>
-            <li sec:authorize="hasRole('ADMIN')" class="nav-item"><a href="/admin/products">Товары</a></li>
-            <li sec:authorize="hasRole('ADMIN')" class="nav-item"><a href="/admin/users">Клиенты</a></li>
-            <li sec:authorize="hasRole('ADMIN')" class="nav-item"><a href="/admin/orders">Заказы</a></li>
+            <li sec:authorize="hasRole('ADMIN')" class="nav-item-admin"><a href="/admin/products">Администратор</a></li>
             </li>
         </ul>
     </nav>
+</div>
+<div th:fragment="navbar-admin" class="container">
+    <nav class="navbar__custom">
+        <span class="navbar__name">Панель Администратора</span>
+        <ul class="nav-links">
+            <li class="nav-item"><a href="/admin/products">Товары</a></li>
+            <li class="nav-item"><a href="/admin/clients">Клиенты</a></li>
+            <li class="nav-item"><a href="/admin/orders">Заказы</a></li>
+            <li class="nav-item-admin"><a href="/products">Главное меню</a></li>
+        </ul>
+    </nav>
+    <br/>
 </div>
 </body>
 </html>

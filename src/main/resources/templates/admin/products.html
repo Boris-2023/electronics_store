@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="ru"
+      xmlns:th="https://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width">
+    <title>BestElectronics -> Администратор: Товары</title>
+    <script src="https://use.fontawesome.com/95b86417ef.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.2/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400&display=swap"
+          rel="stylesheet">
+
+    <link th:href="@{/styles/bootstrap.min.css}" rel="stylesheet"/>
+    <link th:href="@{/styles/style.css}" rel="stylesheet"/>
+    <link th:href="@{/styles/norm.css}" rel="stylesheet"/>
+    <link th:href="@{/styles/navbar.css}" rel="stylesheet"/>
+
+</head>
+
+<body>
+
+<div th:insert="~{fragments/navbars :: navbar-admin}"></div>
+
+<main class="container">
+
+    <div class="form-block" th:switch="${products}">
+        <div th:case="null" class="fail__message">ТОВАРЫ НЕ НАЙДЕНЫ!</div>
+        <div th:case="*">
+            <p class="h4 text-center fw-bolder">ТОВАРЫ</p>
+
+            <table class="table table-striped border-black border-start border-end border-bottom">
+                <thead class="table-dark fw-bold">
+                <tr class="">
+                    <th>ID</th>
+                    <th>Тип</th>
+                    <th>Производитель</th>
+                    <th>Модель</th>
+                    <th class="text-end">Цена</th>
+                    <th class="text-end">Остаток</th>
+                    <th class="text-center">Действие</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="product : ${products}">
+                    <td th:text="${product.id}"></td>
+                    <td th:text="${product.name}"></td>
+                    <td th:text="${product.manufacturer}"></td>
+                    <td th:text="${product.model}"></td>
+                    <td th:text="${product.price}" class="text-end"></td>
+                    <td th:text="${product.quantity}" class="text-end"></td>
+                    <td class="text-center">
+                        <a class="btn btn-outline-success"
+                           th:href="@{/admin/product-update/{id}(id=${product.id})}"
+                           title="Изменить товар">Изменить</a>&nbsp;
+                        <a class="btn btn-outline-danger" th:href="@{/admin/product-delete/{id}(id=${product.id})}"
+                           title="Удалить товар">Удалить</a>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <span th:if="${param.created}" class="success__message">Новый товар добавлен!</span>
+        <span th:if="${param.updated}" class="success__message">Товар успешно изменен!</span>
+        <span th:if="${param.deleted}" class="success__message">Товар удален!</span>
+        <span th:if="${param.create_failed}" class="fail__message">Такой товар уже есть!</span>
+        <span th:if="${param.search_failed}" class="fail__message">Товар не найден!</span>
+        <span th:if="${param.delete_failed}" class="fail__message">
+            Товар не может быть удален, т.к. включен в состав текущих заказов, но теперь неактивен - недоступен для продажи.</span>
+
+        <p>
+            <a class="ordering__order-btn" href="/admin/product-create">Добавить товар</a>
+        </p>
+    </div>
+
+</main>
+
+<div th:insert="~{fragments/footer :: footer}"></div>
+
+</body>
+</html>

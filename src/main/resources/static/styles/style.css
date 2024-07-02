@@ -953,7 +953,7 @@ body {
     margin: 0 auto;
 }
 
-.fail-message-letter {
+.fail__message {
     font-size: 22px;
     color: #d45858;
     margin-top: 14px;
@@ -982,6 +982,19 @@ body {
     fill: white;
     background-color: #87bbf3;
     box-shadow: 0px 5px 8px 0px rgba(0, 0, 0, 0.16);
+}
+
+.table__column-250px {
+    width: 250px
+}
+
+.input__ready-to-modify {
+    background-color: #ebf7eb;
+}
+
+.input__forbid-to-modify {
+    background-color: #fdf5f6;
+    color: #609bce;
 }
 
 

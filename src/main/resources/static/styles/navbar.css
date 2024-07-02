@@ -23,11 +23,23 @@
     color: white;
 }
 
+.nav-item-admin a {
+    display: inline-block;
+    text-decoration: none;
+    padding: 10px 15px;
+    color: yellow;
+}
+
 .nav-item:hover {
     background-color: white;
 }
 
-.nav-item:hover a {
+.nav-item-admin:hover {
+    background-color: yellow;
+}
+
+.nav-item:hover a,
+.nav-item-admin:hover a {
     color: #456a92;
 }
 
@@ -47,6 +59,6 @@
     font-weight: bolder;
 }
 
-.center{
+.center {
     text-align: center;
 }

@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="ru"
-      xmlns:th="https://www.thymeleaf.org"><head>
+      xmlns:th="https://www.thymeleaf.org">
+<head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width">
     <title>BestElectronics</title>
@@ -18,7 +19,7 @@
 <body>
 
 <div th:insert="~{fragments/header :: header}"></div>
-<div th:insert="~{fragments/navbar :: navbar}"></div>
+<div th:insert="~{fragments/navbars :: navbar}"></div>
 
 <main class="auth container">
 
@@ -30,7 +31,7 @@
 
                 <p class="text_fontSize16Light">Пожалуйста, войдите в свой профиль:</p>
 
-                <p class="fail-message-letter" th:if="${param.error}">Неверное имя пользователя или пароль</p>
+                <p class="fail__message" th:if="${param.error}">Неверное имя пользователя или пароль</p>
 
                 <p class="shipping__mail_mrg text_fontSize14Dark">EMAIL:<span
                         class="shipping_textSpec">*</span></p>
@@ -55,7 +56,6 @@
 
         </form>
 
-        <!--        <form class="registration registration_mrg" action="/auth/registration" method="post">-->
         <form class="registration registration_mrg" th:action="@{/auth/registration}" method="post">
 
             <fieldset class="registration__wrap">
@@ -63,42 +63,37 @@
                 <p class="text_fontSize16Light">Пожалуйста, заполните информацию ниже:</p>
 
                 <p class="registration__text registration__text_dark">ИМЯ<span class="shipping_textSpec">*</span></p>
-                <!--                <input type="text" name="firstName"-->
                 <input type="text" th:name="firstName"
                        class="shipping__passwordInput shipping__passwordInput_mgTop shipping__text_fs12DarkLow"
                        required>
 
                 <p class="registration__text registration__text_dark">ФАМИЛИЯ<span class="shipping_textSpec">*</span>
                 </p>
-                <!--                <input type="text" name="lastName"-->
                 <input type="text" th:name="lastName"
                        class="shipping__passwordInput shipping__passwordInput_mgTop shipping__text_fs12DarkLow"
                        required>
 
                 <p class="registration__text registration__text_dark">EMAIL АДРЕС (логин)<span
                         class="shipping_textSpec">*</span></p>
-<!--                <input type="email" name="email"-->
 
-                <p class="fail-message-letter" th:if="${param.reg_error}">Пользователь с таким адресом email уже зарегестрирован!</p>
+                <p class="fail__message" th:if="${param.reg_error}">Пользователь с таким адресом email уже
+                    зарегестрирован!</p>
 
                 <input type="text" th:name="email"
                        class="shipping__emailInput shipping__emailInput_mgTop shipping__text_fs12DarkLow" required>
 
                 <p class="registration__text registration__text_dark">ПАРОЛЬ<span class="shipping_textSpec">*</span>
                 </p>
-<!--                <input type="password" name="password"-->
                 <input type="text" th:name="password"
                        class="shipping__passwordInput shipping__passwordInput_mgTop shipping__text_fs12DarkLow"
                        required>
 
                 <p class="registration__text registration__text_dark">ТЕЛЕФОН<span class="shipping_textSpec"></span></p>
-<!--                <input type="text" name="phone"-->
                 <input type="text" th:name="phone"
                        class="shipping__passwordInput shipping__passwordInput_mgTop shipping__text_fs12DarkLow">
 
                 <p class="registration__text registration__text_dark">АДРЕС ДЛЯ ДОСТАВКИ<span
                         class="shipping_textSpec">*</span></p>
-<!--                <input type="text" name="address"-->
                 <input type="text" th:name="address"
                        class="shipping__passwordInput shipping__passwordInput_mgTop shipping__text_fs12DarkLow"
                        required>

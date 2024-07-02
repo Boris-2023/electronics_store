@@ -38,4 +38,14 @@ public class Product implements Serializable {
     @Column(nullable = false)
     private Long quantity;
 
+    @Column(nullable = false)
+    private Boolean isActive;
+
+    public boolean equals(Product product){
+        return this.getName().replace(" ", "").equalsIgnoreCase(product.getName().replace(" ", ""))
+                && this.getManufacturer().replace(" ", "").equalsIgnoreCase(product.getManufacturer().replace(" ", ""))
+                && this.getModel().replace(" ", "").equalsIgnoreCase(product.getModel().replace(" ", ""))
+                && this.getCountryOrigin().replace(" ", "").equalsIgnoreCase(product.getCountryOrigin().replace(" ", ""))
+                && this.getPrice().equals(product.getPrice());
+    }
 }

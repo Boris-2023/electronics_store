@@ -34,14 +34,13 @@ public class OrdersDetailsService {
 
             product = details.get(i).getProduct();
 
-            // price of the product, its qty and total price for this item
-            values[0] = String.valueOf(product.getPrice());
+            // price - from orderDetails! as it might be changed for the product already
+            values[0] = String.valueOf(details.get(i).getPrice());
 
+            //qty and total price for this item
             values[1] = String.valueOf(details.get(i).getQuantity());
-            values[2] = String.valueOf((product.getPrice()) * (details.get(i).getQuantity()));
+            values[2] = String.valueOf((details.get(i).getPrice()) * (details.get(i).getQuantity()));
             products.put(product.getName() + " " + product.getManufacturer() + " " + product.getModel(), List.of(values));
-
-
         }
         return products;
     }

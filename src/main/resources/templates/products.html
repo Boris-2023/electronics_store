@@ -19,14 +19,17 @@
 <body>
 
 <div th:insert="~{fragments/header :: header}"></div>
-<div th:insert="~{fragments/navbar :: navbar}"></div>
+<div th:insert="~{fragments/navbars :: navbar}"></div>
 
 <div th:class="${!products.isEmpty()} ? 'display-none' : 'text-out'">Товары не найдены</div>
 
 <section class='promo__content promo_mrg container'>
 
     <figure th:each="product : ${products}" class='promo__card'>
-        <img class="product-img" th:src="@{'/images/img_big/card'+ ${product.id} + '.jpg'}">
+        <!--     <img class="product-img" th:src="@{'/images/img_big/card'+ ${product.id} + '.jpg'}" alt="Изображения пока нет">-->
+        <img  class="product-img" th:src="@{'/images/img_big/card'+ ${product.id} + '.jpg'}"
+             onerror="this.onerror=null;this.src='/images/img_big/dummy.jpg';">
+
         <figcaption class='promo__caption'>
             <h3 class='promo__name'
                 th:text="${product.name} + ' ' + ${product.manufacturer} + ' ' + ${product.model}"></h3>

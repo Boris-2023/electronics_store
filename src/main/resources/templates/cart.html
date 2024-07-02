@@ -19,7 +19,7 @@
 <body>
 
 <div th:insert="~{fragments/header :: header}"></div>
-<div th:insert="~{fragments/navbar :: navbar}"></div>
+<div th:insert="~{fragments/navbars :: navbar}"></div>
 
 <main class="container">
 
@@ -37,7 +37,7 @@
 
         <div class="js-cart"></div>
 
-        <p class="fail-message-letter" th:if="${param.empty_cart}">Ваша корзина пуста!</p>
+        <p class="fail__message" th:if="${param.empty_cart}">Ваша корзина пуста!</p>
 
         <div class="shop-cart__buttons">
             <a href="/cart">
@@ -58,7 +58,7 @@
             </div>
         </div>
 
-        <p th:if="${param.order_fail}" class="fail-message-letter">Не удалось сформировать заказ!</p>
+        <p th:if="${param.order_fail}" class="fail__message">Не удалось сформировать заказ!</p>
 
         <div th:switch="${#authentication} ? ${#authorization.expression('isAuthenticated()')} : ${false}">
             <a th:case="${true}" class="ordering__order-btn js-order">ОФОРМИТЬ ЗАКАЗ</a>

@@ -24,6 +24,9 @@ public class OrdersDetails {
     @JoinColumn(name = "product_id", referencedColumnName = "id", nullable = false)
     private Product product;
 
+    @Column
+    private Double price;
+
     @Column(nullable = false)
     private Long quantity;
 }

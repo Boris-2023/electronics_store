@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="ru"
+      xmlns:th="https://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width">
+    <title>BestElectronics -> Администратор: редактирование товара</title>
+    <script src="https://use.fontawesome.com/95b86417ef.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.2/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400&display=swap"
+          rel="stylesheet">
+
+    <link th:href="@{/styles/bootstrap.min.css}" rel="stylesheet"/>
+    <link th:href="@{/styles/style.css}" rel="stylesheet"/>
+    <link th:href="@{/styles/norm.css}" rel="stylesheet"/>
+    <link th:href="@{/styles/navbar.css}" rel="stylesheet"/>
+
+</head>
+
+<body>
+
+<div th:insert="~{fragments/navbars :: navbar-admin}"></div>
+
+<main class="container">
+
+    <p class="h4 fw-bolder">Изменение товара:</p>
+    <form class="form-block" th:action="@{/admin/product-update}" th:object="${product}" method="post">
+
+        <table class="table">
+            <tbody>
+            <tr class="form-label">
+                <td class="table__column-250px">ID</td>
+                <td><input type="text" readonly th:name="id" th:field="*{id}" class="form-control input__forbid-to-modify"
+                           th:placeholder="${product.id}"></td>
+            </tr>
+            <tr class="form-label">
+                <td class="table__column-250px">Тип</td>
+                <td><input type="text" readonly th:name="name" th:field="*{name}" class="form-control input__forbid-to-modify"
+                           th:value="${product.name}"></td>
+            </tr>
+            <tr class="form-label">
+                <td class="table__column-250px">Производитель</td>
+                <td><input type="text" readonly th:name="manufacturer" th:field="*{manufacturer}" class="form-control input__forbid-to-modify"
+                           th:value="${product.manufacturer}"></td>
+            </tr>
+            <tr class="form-label">
+                <td class="table__column-250px">Модель</td>
+                <td><input type="text" readonly th:name="model" th:field="*{model}" class="form-control input__forbid-to-modify"
+                           th:value="${product.model}"></td>
+            </tr>
+            <tr class="form-label">
+                <td class="table__column-250px">Страна происхождения</td>
+                <td><input type="text" readonly th:name="countryOrigin" th:field="*{countryOrigin}" class="form-control input__forbid-to-modify"
+                           th:value="${product.countryOrigin}"></td>
+            </tr>
+            <tr class="form-label">
+                <td class="table__column-250px">Описание</td>
+                <td><input type="text" th:name="description" th:field="*{description}" class="form-control input__ready-to-modify"
+                           th:value="${product.description}"></td>
+            </tr>
+            <tr class="form-label">
+                <td class="table__column-250px">Цена</td>
+                <td><input type="number" th:name="price" th:field="*{price}" class="form-control input__ready-to-modify"
+                           th:value="${product.price}"></td>
+            </tr>
+            <tr class="form-label">
+                <td class="table__column-250px">Количество</td>
+                <td><input type="number" th:name="quantity" th:field="*{quantity}" class="form-control input__ready-to-modify"
+                           th:value="${product.quantity}">
+                </td>
+            </tr>
+            <tr class="form-label">
+                <td class="table__column-250px align-content-center">Доступность для продажи</td>
+                <td>
+                    <div class="form-check form-switch ali">
+                        <input class="form-check-input" type="checkbox" th:name="isActive" th:field="*{isActive}"
+                               th:checked="${product.isActive} ? 'checked'"/>
+                    </div>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+
+        <button class="confirm__button"
+                type="submit">Сохранить изменения
+        </button>
+
+    </form>
+
+    </div>
+
+</main>
+
+<div th:insert="~{fragments/footer :: footer}"></div>
+
+</body>
+</html></title>
+</head>
+<body>
+
+</body>
+</html>

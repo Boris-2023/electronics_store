@@ -2,7 +2,9 @@ package ru.gb.electronicsstore.service;
 
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
+import ru.gb.electronicsstore.domain.OrdersDetails;
 import ru.gb.electronicsstore.domain.Product;
+import ru.gb.electronicsstore.repository.OrdersDetailsRepository;
 import ru.gb.electronicsstore.repository.ProductRepository;
 
 import java.util.List;
@@ -13,10 +15,18 @@ import java.util.Optional;
 public class ProductService {
 
     private ProductRepository repository;
+    private OrdersDetailsRepository detailsRepository;
 
     public Product addProduct(Product product) {
-        repository.save(product);
-        return product;
+        Optional<Product> productOptional = repository.findAll().stream()
+                .filter(x -> x.equals(product))
+                .findFirst();
+        // do not save the product which is already in stock
+        if (productOptional.isEmpty()) {
+            return repository.save(product);
+        } else {
+            return null;
+        }
     }
 
     public List<Product> getAllProducts() {
@@ -29,15 +39,25 @@ public class ProductService {
                 .toList();
     }
 
-    public List<Product> getProductsInStockByText(String text) {
+    public List<Product> getActiveProductsInStockByText(String text) {
         final String testString = text.replace(" ", "").toLowerCase();
         return repository.findAll().stream()
-                .filter(x -> (x.getName() + x.getManufacturer() + x.getModel()).toLowerCase().contains(testString) && x.getQuantity()>0)
+                .filter(x -> (x.getName() + x.getManufacturer() + x.getModel()).toLowerCase().contains(testString) && x.getQuantity() > 0 && x.getIsActive())
                 .toList();
     }
 
-    public Product getProductById(Long id) {
-        return repository.findById(id).orElseGet(null);
+    public Optional<Product> getActiveProductById(Long id) {
+        Optional<Product> productOptional = repository.findById(id);
+        // only active product can be returned - for clients
+        if (productOptional.isPresent() && productOptional.get().getIsActive()) {
+            return repository.findById(id);
+        } else {
+            return Optional.empty();
+        }
+    }
+
+    public Optional<Product> getProductById(Long id) {
+        return repository.findById(id);
     }
 
     public List<Product> getProductsByIds(List<Long> ids) {
@@ -46,23 +66,49 @@ public class ProductService {
                 .toList();
     }
 
-    public Product updateProductParameters(Long id, Product product) {
+    public boolean updateProductParameters(Long id, Product product) {
         Optional<Product> optionalProduct = repository.findById(id);
 
         if (optionalProduct.isPresent()) {
             Product destinationProduct = optionalProduct.get();
-            destinationProduct.setCountryOrigin(product.getCountryOrigin());
-            destinationProduct.setManufacturer(product.getManufacturer());
+
+            // not all the parameters can be updated, otherwise - another product!
+            destinationProduct.setDescription(product.getDescription());
             destinationProduct.setQuantity(product.getQuantity());
             destinationProduct.setPrice(product.getPrice());
-            return repository.save(destinationProduct);
+            destinationProduct.setIsActive(product.getIsActive());
+
+            repository.save(destinationProduct);
+
+            return true;
         } else {
-            throw new IllegalArgumentException("No Product found with id: " + id);
+            return false;
+            //throw new IllegalArgumentException("No Product found with id: " + id);
         }
     }
 
-    public void deleteProductById(Long id) {
-        Product product = repository.findById(id).orElseGet(null);
-        if (product != null) repository.delete(product);
+    public Boolean deleteProductById(Long id) {
+        Optional<Product> productOptional = repository.findById(id);
+        if (productOptional.isPresent()) {
+            Product product = productOptional.get();
+
+            // finds orders with this product included
+            Optional<OrdersDetails> foundOrderOptional = detailsRepository.findAll().stream()
+                    .filter(x -> x.getProduct().equals(product))
+                    .findFirst();
+
+            // can delete only products which are not included in any existing order
+            if (foundOrderOptional.isEmpty()) {
+                repository.delete(product);
+                return true;
+                // turns off its availability for clients
+            } else {
+                product.setIsActive(false);
+                updateProductParameters(id, product);
+                return false;
+            }
+        } else {
+            return null;
+        }
     }
 }

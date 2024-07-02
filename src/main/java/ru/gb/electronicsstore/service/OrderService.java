@@ -69,11 +69,12 @@ public class OrderService {
                     oDetails.setOrder(order);
                     oDetails.setProduct(product);
                     oDetails.setQuantity(content.get(key));
+                    oDetails.setPrice(product.getPrice());
 
                     // transfer products from stock to the order, adjust order qty if less in stock, false if product is out of stock
                     if (transferProductsFromStockToOrder(product, oDetails)) {
                         detailsList.add(oDetails);
-                        amount += oDetails.getQuantity() * product.getPrice();
+                        amount += oDetails.getQuantity() * oDetails.getPrice();
                     }
 
                 } else return false;

@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="ru"
+      xmlns:th="https://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width">
+    <title>BestElectronics -> Администратор: Добавление товара</title>
+    <script src="https://use.fontawesome.com/95b86417ef.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.2/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400&display=swap"
+          rel="stylesheet">
+
+    <link th:href="@{/styles/bootstrap.min.css}" rel="stylesheet"/>
+    <link th:href="@{/styles/style.css}" rel="stylesheet"/>
+    <link th:href="@{/styles/norm.css}" rel="stylesheet"/>
+    <link th:href="@{/styles/navbar.css}" rel="stylesheet"/>
+
+</head>
+
+<body>
+
+<div th:insert="~{fragments/navbars :: navbar-admin}"></div>
+
+<main class="container">
+
+    <p class="h4 fw-bolder">Добавление товара:</p>
+    <form class="form-block" th:action="@{/admin/product-create}" th:object="${product}" method="post">
+
+        <table class="table">
+            <tbody>
+            <tr class="form-label">
+                <td class="table__column-250px">Тип<span class="shipping_textSpec">*</span></td>
+                <td><input type="text" th:name="name" th:field="*{name}" class="form-control" required></td>
+            </tr>
+            <tr class="form-label">
+                <td class="table__column-250px">Производитель<span class="shipping_textSpec">*</span></td>
+                <td><input type="text" th:name="manufacturer" th:field="*{manufacturer}" class="form-control" required>
+                </td>
+            </tr>
+            <tr class="form-label">
+                <td class="table__column-250px">Модель<span class="shipping_textSpec">*</span></td>
+                <td><input type="text" th:name="model" th:field="*{model}" class="form-control" required></td>
+            </tr>
+            <tr class="form-label">
+                <td class="table__column-250px">Страна происхождения<span class="shipping_textSpec">*</span></td>
+                <td><input type="text" th:name="countryOrigin" th:field="*{countryOrigin}" class="form-control"
+                           required></td>
+            </tr>
+            <tr class="form-label">
+                <td class="table__column-250px">Описание<span class="shipping_textSpec">*</span></td>
+                <td><input type="text" th:name="description" th:field="*{description}" class="form-control" required>
+                </td>
+            </tr>
+            <tr class="form-label">
+                <td class="table__column-250px">Цена<span class="shipping_textSpec">*</span></td>
+                <td><input type="number" th:name="price" th:field="*{price}" class="form-control" required></td>
+            </tr>
+            <tr class="form-label">
+                <td class="table__column-250px">Количество<span class="shipping_textSpec">*</span></td>
+                <td><input type="number" th:name="quantity" th:field="*{quantity}" class="form-control" required></td>
+            </tr>
+            <tr class="form-label">
+                <td class="table__column-250px align-content-center">Доступность для продажи</td>
+                <td>
+                    <div class="form-check form-switch ali">
+                        <input class="form-check-input" type="checkbox" th:name="isActive" th:field="*{isActive}"
+                               th:checked="${product.isActive} ? 'checked'"/>
+                    </div>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+
+        <p class="shipping_requiredFields_mgTop shipping__text_fontColored">* Обязательные поля</p>
+
+        <button class="confirm__button"
+                type="submit">Добавить товар
+        </button>
+
+    </form>
+
+    </div>
+
+</main>
+
+<div th:insert="~{fragments/footer :: footer}"></div>
+
+</body>
+</html>

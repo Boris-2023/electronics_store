@@ -42,7 +42,7 @@ public class SecurityConfig {
         http
                 .csrf(AbstractHttpConfigurer::disable) // иначе JS не может обратиться к api без токена (даже если есть права)
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/admin").hasAnyRole("ADMIN")
+                        .requestMatchers("/admin/**").hasAnyRole("ADMIN")
                         .requestMatchers("/cart/order").hasAnyRole("USER")
                         .requestMatchers("/**", "/", "/products", "/card", "/cart", "/api/products", "auth/registration").permitAll()
                         .anyRequest().authenticated()
