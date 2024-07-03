@@ -17,7 +17,7 @@ public class Order implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne
     @JoinColumn(name = "user_id", referencedColumnName = "id", nullable = false)
     private User user;
 
@@ -27,12 +27,18 @@ public class Order implements Serializable {
     @Column(name = "date_order", nullable = false)
     private Timestamp orderDate;
 
+    @Column(nullable = false)
+    private String contact;
+
+    @Column(nullable = false)
+    private String address;
+
     @Column(name = "status_order", length = 50, nullable = false)
     private String status;
 
     @Column(name = "date_update", nullable = false)
     private Timestamp lastUpdated;
 
-    @Column(name="payment_reference", nullable = false)
+    @Column(name = "payment_reference", nullable = false)
     private Long paymentReference = 0L;
 }

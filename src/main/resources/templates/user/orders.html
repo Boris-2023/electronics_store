@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width">
-    <title>BestElectronics -> Администратор: Заказы</title>
+    <title>BestElectronics -> Заказы</title>
     <script src="https://use.fontawesome.com/95b86417ef.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.2/css/all.min.css">
     <link rel="preconnect" href="https://fonts.gstatic.com">
@@ -20,7 +20,8 @@
 
 <body>
 
-<div th:insert="~{fragments/navbars :: navbar-admin}"></div>
+<div th:insert="~{fragments/header :: header}"></div>
+<div th:insert="~{fragments/navbars :: navbar-profile}"></div>
 
 <main class="container">
 
@@ -39,7 +40,6 @@
                     <th>Статус</th>
                     <th>Контакт</th>
                     <th>Адрес доставки</th>
-                    <th class="text-center">Действие</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -51,24 +51,10 @@
                     <td th:text="${order.status}"></td>
                     <td th:text="${order.contact}"></td>
                     <td th:text="${order.address}"></td>
-                    <td class="text-center">
-                        <a class="btn btn-outline-success"
-                           th:href="@{/admin/order-update/{id}(id=${order.id})}"
-                           title="Изменить товар">Изменить</a>&nbsp;
-                        <a class="btn btn-outline-danger" th:href="@{/admin/order-delete/{id}(id=${order.id})}"
-                           title="Удалить товар">Удалить</a>
-                    </td>
                 </tr>
                 </tbody>
             </table>
         </div>
-
-        <span th:if="${param.updated}" class="success__message">Заказ успешно обновлен!</span>
-        <span th:if="${param.deleted}" class="success__message">Заказ удален!</span>
-        <span th:if="${param.search_failed}" class="fail__message">Заказ не найден!</span>
-        <span th:if="${param.delete_failed}" class="fail__message">
-            Заказ не может быть удален, т.к. он еще в работе. Удалить можно заказы со статусом "CREATED" или "COMPLETED".</span>
-
     </div>
 
 </main>

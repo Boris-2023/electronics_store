@@ -1,6 +1,5 @@
 package ru.gb.electronicsstore.service;
 
-import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import ru.gb.electronicsstore.domain.OrdersDetails;

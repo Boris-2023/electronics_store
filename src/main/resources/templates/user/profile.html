@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="ru"
+      xmlns:th="https://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width">
+    <title>BestElectronics - Профиль клиента</title>
+    <script src="https://use.fontawesome.com/95b86417ef.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.2/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400&display=swap"
+          rel="stylesheet">
+
+    <link th:href="@{/styles/bootstrap.min.css}" rel="stylesheet"/>
+    <link th:href="@{/styles/style.css}" rel="stylesheet"/>
+    <link th:href="@{/styles/norm.css}" rel="stylesheet"/>
+    <link th:href="@{/styles/navbar.css}" rel="stylesheet"/>
+
+</head>
+
+<body>
+
+<div th:insert="~{fragments/header :: header}"></div>
+<div th:insert="~{fragments/navbars :: navbar-profile}"></div>
+
+<main class="container">
+
+    <p class="h4 fw-bolder">Личные данные:</p>
+
+    <hr/>
+
+    <table class="table d-flex">
+
+        <tbody class="h5">
+        <tr>
+            <td class="fw-bold">Имя:</td>
+            <td th:text="${user.firstName}"/>
+        </tr>
+        <tr>
+            <td class="fw-bold">Фамилия:</td>
+            <td th:text="${user.lastName}"/>
+        </tr>
+        <tr>
+            <td class="fw-bold">Логин (email):</td>
+            <td th:text="${user.email}"/>
+        </tr>
+        <tr>
+            <td class="fw-bold">Телефон:</td>
+            <td th:text="${user.phone}"/>
+        </tr>
+        <tr>
+            <td class="fw-bold">Адрес доставки:</td>
+            <td th:text="${user.address}"/>
+        </tr>
+        </tbody>
+    </table>
+    <a href="/profile/edit" class="register__btn">
+        Редактировать
+    </a>
+    <hr/>
+</main>
+
+<div th:insert="~{fragments/footer :: footer}"></div>
+
+</script>
+
+</body>
+</html>

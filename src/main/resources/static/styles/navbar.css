@@ -23,7 +23,7 @@
     color: white;
 }
 
-.nav-item-admin a {
+.nav-item-yellow a {
     display: inline-block;
     text-decoration: none;
     padding: 10px 15px;
@@ -34,12 +34,12 @@
     background-color: white;
 }
 
-.nav-item-admin:hover {
+.nav-item-yellow:hover {
     background-color: yellow;
 }
 
 .nav-item:hover a,
-.nav-item-admin:hover a {
+.nav-item-yellow:hover a {
     color: #456a92;
 }
 

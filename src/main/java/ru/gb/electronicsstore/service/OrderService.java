@@ -28,6 +28,15 @@ public class OrderService {
     UserRepository userRepository;
     OrdersDetailsRepository oDetailsRepository;
 
+    public List<Order> getAllOrders() {
+        return orderRepository.findAll();
+    }
+
+    public Optional<Order> getOrderById(Long id) {
+        return orderRepository.findById(id);
+    }
+
+
     public List<Order> getOrderByUserId(Long user_id) {
         return orderRepository.findAll().stream()
                 .filter(x -> x.getUser().getId() == user_id)
@@ -85,6 +94,11 @@ public class OrderService {
             order.setUser(user);
             order.setAmount(amount);
             order.setOrderDate(Timestamp.valueOf(LocalDateTime.now()));
+
+            // contact & address must be fixed on order creation as user may change'em in profile later
+            order.setContact(user.getPhone());
+            order.setAddress(user.getAddress());
+
             order.setStatus(OrderStatus.CREATED.name());
             order.setLastUpdated(Timestamp.valueOf(LocalDateTime.now()));
 
@@ -139,5 +153,67 @@ public class OrderService {
             return paymentReference;
         }
         return -1L;
+    }
+
+    public boolean deleteOrderById(Long id) {
+        Optional<Order> orderOptional = orderRepository.findById(id);
+        if (orderOptional.isPresent()) {
+            orderRepository.deleteById(id);
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    public boolean deleteOrderByIdWithStatusConstraint(Long id, OrderStatus[] statusesAllowed) {
+        Optional<Order> orderOptional = orderRepository.findById(id);
+        if (orderOptional.isPresent()) {
+            if (Arrays.stream(statusesAllowed)
+                    .anyMatch(x -> x.name().equalsIgnoreCase(orderOptional.get().getStatus()))) {
+                orderRepository.deleteById(id);
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public boolean deleteOrdersByStatus(String status) {
+
+        List<Order> orders = orderRepository.findAll().stream()
+                .filter(x -> Objects.equals(x.getStatus(), status))
+                .toList();
+
+        if (!orders.isEmpty()) {
+            orderRepository.deleteAll(orders);
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    public boolean updateOrderParameters(Long id, Order order) {
+        Optional<Order> optionalOrder = orderRepository.findById(id);
+
+        if (optionalOrder.isPresent()) {
+            Order destinationOrder = optionalOrder.get();
+
+            // not all the parameters can be updated
+            destinationOrder.setStatus(order.getStatus());
+            destinationOrder.setContact(order.getContact());
+            destinationOrder.setAddress(order.getAddress());
+
+            orderRepository.save(destinationOrder);
+
+            return true;
+        } else {
+            return false;
+            //throw new IllegalArgumentException("No Order found with id: " + id);
+        }
+    }
+
+    public List<Order> getOrdersByUserId(Long userId){
+        return orderRepository.findAll().stream()
+                .filter(x -> x.getUser().getId().equals(userId))
+                .toList();
     }
 }

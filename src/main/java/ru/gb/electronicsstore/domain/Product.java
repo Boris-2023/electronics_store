@@ -1,6 +1,5 @@
 package ru.gb.electronicsstore.domain;
 
-import lombok.AllArgsConstructor;
 import lombok.Data;
 import jakarta.persistence.*;
 import lombok.NoArgsConstructor;

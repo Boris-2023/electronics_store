@@ -31,50 +31,44 @@
             <tbody>
             <tr class="form-label">
                 <td class="table__column-250px">ID</td>
-                <td><input type="text" readonly th:name="id" th:field="*{id}" class="form-control input__forbid-to-modify"
-                           th:placeholder="${product.id}"></td>
+                <td><input type="text" readonly th:field="*{id}" class="form-control input__forbid-to-modify"></td>
             </tr>
             <tr class="form-label">
                 <td class="table__column-250px">Тип</td>
-                <td><input type="text" readonly th:name="name" th:field="*{name}" class="form-control input__forbid-to-modify"
-                           th:value="${product.name}"></td>
+                <td><input type="text" readonly th:field="*{name}" class="form-control input__forbid-to-modify"></td>
             </tr>
             <tr class="form-label">
                 <td class="table__column-250px">Производитель</td>
-                <td><input type="text" readonly th:name="manufacturer" th:field="*{manufacturer}" class="form-control input__forbid-to-modify"
-                           th:value="${product.manufacturer}"></td>
+                <td><input type="text" readonly th:field="*{manufacturer}" class="form-control input__forbid-to-modify">
+                </td>
             </tr>
             <tr class="form-label">
                 <td class="table__column-250px">Модель</td>
-                <td><input type="text" readonly th:name="model" th:field="*{model}" class="form-control input__forbid-to-modify"
-                           th:value="${product.model}"></td>
+                <td><input type="text" readonly th:field="*{model}" class="form-control input__forbid-to-modify"></td>
             </tr>
             <tr class="form-label">
                 <td class="table__column-250px">Страна происхождения</td>
-                <td><input type="text" readonly th:name="countryOrigin" th:field="*{countryOrigin}" class="form-control input__forbid-to-modify"
-                           th:value="${product.countryOrigin}"></td>
+                <td><input type="text" readonly th:field="*{countryOrigin}"
+                           class="form-control input__forbid-to-modify"></td>
             </tr>
             <tr class="form-label">
                 <td class="table__column-250px">Описание</td>
-                <td><input type="text" th:name="description" th:field="*{description}" class="form-control input__ready-to-modify"
-                           th:value="${product.description}"></td>
+                <td><input type="text" th:field="*{description}" class="form-control input__ready-to-modify"></td>
             </tr>
             <tr class="form-label">
                 <td class="table__column-250px">Цена</td>
-                <td><input type="number" th:name="price" th:field="*{price}" class="form-control input__ready-to-modify"
-                           th:value="${product.price}"></td>
+                <td><input type="number" th:field="*{price}" class="form-control input__ready-to-modify"></td>
             </tr>
             <tr class="form-label">
                 <td class="table__column-250px">Количество</td>
-                <td><input type="number" th:name="quantity" th:field="*{quantity}" class="form-control input__ready-to-modify"
-                           th:value="${product.quantity}">
+                <td><input type="number" th:field="*{quantity}" class="form-control input__ready-to-modify">
                 </td>
             </tr>
             <tr class="form-label">
                 <td class="table__column-250px align-content-center">Доступность для продажи</td>
                 <td>
                     <div class="form-check form-switch ali">
-                        <input class="form-check-input" type="checkbox" th:name="isActive" th:field="*{isActive}"
+                        <input class="form-check-input" type="checkbox" th:field="*{isActive}"
                                th:checked="${product.isActive} ? 'checked'"/>
                     </div>
                 </td>
@@ -93,11 +87,6 @@
 </main>
 
 <div th:insert="~{fragments/footer :: footer}"></div>
-
-</body>
-</html></title>
-</head>
-<body>
 
 </body>
 </html>

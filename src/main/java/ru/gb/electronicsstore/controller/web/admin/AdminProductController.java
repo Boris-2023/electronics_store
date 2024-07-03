@@ -39,7 +39,7 @@ public class AdminProductController {
     }
 
     @GetMapping("/product-delete/{id}")
-    public String deleteUser(@PathVariable("id") long id) {
+    public String deleteProduct(@PathVariable("id") long id) {
         Boolean isSucceeded = productService.deleteProductById(id);
         if (isSucceeded) {
             return "redirect:/admin/products?deleted";
@@ -48,7 +48,7 @@ public class AdminProductController {
     }
 
     @GetMapping("/product-update/{id}")
-    public String updateUserForm(@PathVariable("id") long id, Model model) {
+    public String updateProductForm(@PathVariable("id") long id, Model model) {
         Optional<Product> productOptional = productService.getProductById(id);
         if (productOptional.isPresent()) {
             model.addAttribute("product", productOptional.get());
@@ -58,10 +58,9 @@ public class AdminProductController {
     }
 
     @PostMapping("/product-update")
-    public String updateUser(Product product) {
+    public String updateProduct(Product product) {
         productService.updateProductParameters(product.getId(), product);
         return "redirect:/admin/products?updated";
     }
-
 
 }

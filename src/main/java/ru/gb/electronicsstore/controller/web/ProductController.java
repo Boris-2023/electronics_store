@@ -11,9 +11,6 @@ public class ProductController {
 
     private ProductService service;
 
-    //       private final Counter addNewTaskCounter = Metrics.counter("new_product_counter");
-
-
     @GetMapping
     public String getAllProducts(Model model) {
 
@@ -21,7 +18,6 @@ public class ProductController {
 
         return "products";
     }
-
 
     // for search
     @GetMapping("/products")
@@ -47,5 +43,4 @@ public class ProductController {
 
         return "card";
     }
-
 }

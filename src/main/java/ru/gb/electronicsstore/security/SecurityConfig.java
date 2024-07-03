@@ -43,7 +43,7 @@ public class SecurityConfig {
                 .csrf(AbstractHttpConfigurer::disable) // иначе JS не может обратиться к api без токена (даже если есть права)
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/admin/**").hasAnyRole("ADMIN")
-                        .requestMatchers("/cart/order").hasAnyRole("USER")
+                        .requestMatchers("/cart/order", "/profile/**").hasAnyRole("USER")
                         .requestMatchers("/**", "/", "/products", "/card", "/cart", "/api/products", "auth/registration").permitAll()
                         .anyRequest().authenticated()
                 )
@@ -60,7 +60,6 @@ public class SecurityConfig {
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder(5);
     }
-
 
 }
 

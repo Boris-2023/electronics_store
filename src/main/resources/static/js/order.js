@@ -16,7 +16,6 @@ if (btn) {
 }
 
 async function makeOrder(cart) {
-
     try {
         const response = await fetch('/api/order', {
             method: 'POST',

@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="ru"
+      xmlns:th="https://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width">
+    <title>BestElectronics -> редактирование личных данных</title>
+    <script src="https://use.fontawesome.com/95b86417ef.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.2/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400&display=swap"
+          rel="stylesheet">
+
+    <link th:href="@{/styles/bootstrap.min.css}" rel="stylesheet"/>
+    <link th:href="@{/styles/style.css}" rel="stylesheet"/>
+    <link th:href="@{/styles/norm.css}" rel="stylesheet"/>
+    <link th:href="@{/styles/navbar.css}" rel="stylesheet"/>
+
+</head>
+
+<body>
+
+<div th:insert="~{fragments/header :: header}"></div>
+<div th:insert="~{fragments/navbars :: navbar-profile}"></div>
+
+<main class="container">
+
+    <p class="h4 fw-bolder">Изменение личных данных:</p>
+    <form class="form-block" th:action="@{/profile/edit}" th:object="${user}" method="post">
+
+        <table class="table">
+            <tbody>
+            <tr class="form-label">
+                <td class="table__column-250px">ID</td>
+                <td><input type="text" readonly th:field="*{id}" class="form-control input__forbid-to-modify">
+                </td>
+            </tr>
+            <tr class="form-label">
+                <td class="table__column-250px">Имя</td>
+                <td><input type="text" readonly th:field="*{firstName}" class="form-control input__forbid-to-modify">
+                </td>
+            </tr>
+            <tr class="form-label">
+                <td class="table__column-250px">Фамилия</td>
+                <td><input type="text" readonly th:field="*{lastName}" class="form-control input__forbid-to-modify">
+                </td>
+            </tr>
+            <tr class="form-label">
+                <td class="table__column-250px">Логин (email)</td>
+                <td><input type="text" readonly th:field="*{email}" class="form-control input__forbid-to-modify">
+                </td>
+            </tr>
+            <tr class="form-label">
+                <td class="table__column-250px">Телефон</td>
+                <td><input type="text" th:field="*{phone}" class="form-control  input__ready-to-modify"></td>
+            </tr>
+            <tr class="form-label">
+                <td class="table__column-250px">Адрес доставки</td>
+                <td><input type="text" th:field="*{address}" class="form-control  input__ready-to-modify"></td>
+            </tr>
+            </tbody>
+        </table>
+
+        <button class="confirm__button"
+                type="submit">Сохранить изменения
+        </button>
+
+    </form>
+
+    </div>
+
+</main>
+
+<div th:insert="~{fragments/footer :: footer}"></div>
+
+</body>
+</html>

@@ -11,7 +11,6 @@ import ru.gb.electronicsstore.domain.Product;
 import ru.gb.electronicsstore.domain.dto.PaymentDTO;
 import ru.gb.electronicsstore.service.OrderService;
 import ru.gb.electronicsstore.service.ProductService;
-import ru.gb.electronicsstore.service.UserService;
 
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -61,9 +60,8 @@ public class ApiController {
 
             if (paymentReference != -1) {
                 return new ResponseEntity<>(paymentReference, HttpStatus.OK);
-                //return new ResponseEntity<>(-1L, HttpStatus.OK);
             } else {
-                return ResponseEntity.status(HttpStatus.valueOf("FAIL")).build();
+                return ResponseEntity.status(HttpStatus.PAYMENT_REQUIRED).build();
             }
         } else {
             return ResponseEntity.status(HttpStatus.NO_CONTENT).build();

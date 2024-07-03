@@ -3,8 +3,10 @@ package ru.gb.electronicsstore.service;
 import lombok.AllArgsConstructor;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+import ru.gb.electronicsstore.domain.Order;
 import ru.gb.electronicsstore.domain.User;
 import ru.gb.electronicsstore.domain.dto.UserDTO;
+import ru.gb.electronicsstore.repository.OrderRepository;
 import ru.gb.electronicsstore.repository.UserRepository;
 
 import java.util.List;
@@ -13,25 +15,17 @@ import java.util.Optional;
 @Service
 @AllArgsConstructor
 public class UserService {
-    private UserRepository repository;
+    private UserRepository userRepository;
+    private OrderRepository orderRepository;
 
     // save new user
     public boolean addUser(UserDTO userDTO) {
 
-        System.out.println("\nSAVE USER: checking if exists '" + userDTO.getEmail() + "'...");
+        // checking if such user already exists => cannot create the same
+        Optional<User> userOptional = userRepository.findByEmail(userDTO.getEmail());
+        if (userOptional.isPresent()) return false;
 
-        User user = (repository.findByEmail(userDTO.getEmail())).orElse(null);
-
-        System.out.println(" done:" + user);
-
-        if (user != null) {
-            return false;
-        }
-        System.out.println("NOT null");
-
-        user = new User();
-        System.out.println("\nNew user created");
-
+        User user = new User();
         user.setFirstName(userDTO.getFirstName());
         user.setLastName(userDTO.getLastName());
         user.setEmail(userDTO.getEmail());
@@ -40,22 +34,55 @@ public class UserService {
         user.setAddress(userDTO.getAddress());
         user.setRole(User.ROLE_USER);
 
-        System.out.println("\nSAVE USER on UserService layer\n");
-
-        repository.save(user);
+        userRepository.save(user);
 
         return true;
     }
 
     public List<User> getAllUsers() {
-        return repository.findAll();
+        return userRepository.findAll();
     }
 
-    public User getUserById(Long id) {
-        return repository.findById(id).orElseGet(null);
+    public Optional<User> getUserById(Long id) {
+        return userRepository.findById(id);
     }
 
     public Optional<User> getUserByEmail(String email) {
-        return repository.findByEmail(email);
+        return userRepository.findByEmail(email);
+    }
+
+    public boolean deleteUserByIdWithOrderConstraint(Long id) {
+        Optional<User> userOptional = userRepository.findById(id);
+        if (userOptional.isPresent()) {
+            User user = userOptional.get();
+            Optional<Order> orderOptional = orderRepository.findAll().stream()
+                    .filter(x -> x.getUser().equals(user))
+                    .findFirst();
+            // cannot delete user with orders in process!
+            if (orderOptional.isEmpty()) {
+                userRepository.delete(user);
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public boolean updateUserParameters(Long id, User user) {
+        Optional<User> optionalUser = userRepository.findById(id);
+
+        if (optionalUser.isPresent()) {
+            User destinationUser = optionalUser.get();
+
+            // not all the parameters can be updated
+            destinationUser.setPhone(user.getPhone());
+            destinationUser.setAddress(user.getAddress());
+
+            userRepository.save(destinationUser);
+
+            return true;
+        } else {
+            return false;
+            //throw new IllegalArgumentException("No Order found with id: " + id);
+        }
     }
 }

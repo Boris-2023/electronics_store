@@ -8,8 +8,8 @@ import org.springframework.security.web.authentication.AuthenticationSuccessHand
 import java.io.IOException;
 import java.util.Set;
 
-// класс - обработчик аунтефикации, в зависимости от роли перенаправляет пользователя
-// на страницу корзины (обычный пользователь ROLE_ USER) или на страницу администратора
+// класс - обработчик аунтетификации, в зависимости от роли перенаправляет пользователя
+// на страницу товаров (обычный пользователь ROLE_ USER) или на страницу администратора
 @Configuration
 public class AuthHandler implements AuthenticationSuccessHandler {
     @Override

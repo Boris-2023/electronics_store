@@ -1,10 +1,14 @@
 package ru.gb.electronicsstore.controller.web;
 
 import lombok.AllArgsConstructor;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import ru.gb.electronicsstore.domain.User;
 import ru.gb.electronicsstore.domain.dto.UserDTO;
 import ru.gb.electronicsstore.service.UserService;
+
+import java.util.Optional;
 
 @org.springframework.stereotype.Controller
 @AllArgsConstructor
@@ -31,10 +35,6 @@ public class UserController {
         userDTO.setPhone(phone);
         userDTO.setAddress(address);
 
-        // addNewTaskCounter.increment();
-
-        System.out.println("\nPOST -> " + userDTO + "\n");
-
         boolean isRegisteredOK = false;
         isRegisteredOK = service.addUser(userDTO);
 
@@ -46,10 +46,38 @@ public class UserController {
         return "redirect:/auth?reg_error";
     }
 
-
     @GetMapping("/auth")
     public String getLoginPage() {
         return "auth";
     }
 
+    @GetMapping("/profile")
+    public String displayUserData(Model model) {
+
+        String userName = SecurityContextHolder.getContext().getAuthentication().getName();
+        User user = service.getUserByEmail(userName).orElse(null);
+
+        model.addAttribute("user", user);
+
+        return "/user/profile";
+    }
+
+    @GetMapping("/profile/edit")
+    public String editUserForm(Model model) {
+
+        String userName = SecurityContextHolder.getContext().getAuthentication().getName();
+        Optional<User> userOptional = service.getUserByEmail(userName);
+
+        if (userOptional.isPresent()) {
+            model.addAttribute("user", userOptional.get());
+            return "user/edit";
+        }
+        return "redirect:/profile?search_failed";
+    }
+
+    @PostMapping("/profile/edit")
+    public String updateUser(User user) {
+        service.updateUserParameters(user.getId(), user);
+        return "redirect:/profile";
+    }
 }
