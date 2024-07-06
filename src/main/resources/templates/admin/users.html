@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width">
     <title>BestElectronics -> Администратор: Клиенты</title>
     <script src="https://use.fontawesome.com/95b86417ef.js"></script>
+    <link rel="shortcut icon" type="image/png" th:href="@{/images/favicon.png}"/>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.2/css/all.min.css">
     <link rel="preconnect" href="https://fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400&display=swap"
@@ -37,6 +38,7 @@
                     <th>Логин</th>
                     <th>Телефон</th>
                     <th>Адрес доставки</th>
+                    <th>Роль</th>
                     <th class="text-center">Действие</th>
                 </tr>
                 </thead>
@@ -47,12 +49,13 @@
                     <td th:text="${user.email}"></td>
                     <td th:text="${user.phone}"></td>
                     <td th:text="${user.address}"></td>
+                    <td th:text="${user.role}"></td>
                     <td class="text-center">
                         <a class="btn btn-outline-success"
                            th:href="@{/admin/user-update/{id}(id=${user.id})}"
-                           title="Изменить товар">Изменить</a>&nbsp;
+                           title="Изменить данные профиля">Изменить</a>&nbsp;
                         <a class="btn btn-outline-danger" th:href="@{/admin/user-delete/{id}(id=${user.id})}"
-                           title="Удалить товар">Удалить</a>
+                           title="Удалить профиль">Удалить</a>
                     </td>
                 </tr>
                 </tbody>
@@ -63,7 +66,7 @@
         <span th:if="${param.deleted}" class="success__message">Данные клиента удалены!</span>
         <span th:if="${param.search_failed}" class="fail__message">Клиент не найден!</span>
         <span th:if="${param.delete_failed}" class="fail__message">
-            Клиент не может быть удален, т.к. у него есть заказы в работе.</span>
+            Администратор не может удалить профиль клиента с оплаченными заказами в работе или свой профиль.</span>
     </div>
 
 </main>

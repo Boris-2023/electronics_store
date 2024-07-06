@@ -1,6 +1,7 @@
 package ru.gb.electronicsstore.service;
 
 import lombok.AllArgsConstructor;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import ru.gb.electronicsstore.domain.Order;
@@ -58,13 +59,19 @@ public class UserService {
             Optional<Order> orderOptional = orderRepository.findAll().stream()
                     .filter(x -> x.getUser().equals(user))
                     .findFirst();
-            // cannot delete user with orders in process!
-            if (orderOptional.isEmpty()) {
+            // cannot delete user with orders in process or admin self-delete
+            if (orderOptional.isEmpty() && !isAdminItself(user)) {
                 userRepository.delete(user);
                 return true;
             }
         }
         return false;
+    }
+
+    // admin cannot delete its own account!
+    private boolean isAdminItself(User user) {
+        String userName = SecurityContextHolder.getContext().getAuthentication().getName();
+        return userName.equals(user.getEmail()) && user.getRole().toLowerCase().contains("admin");
     }
 
     public boolean updateUserParameters(Long id, User user) {

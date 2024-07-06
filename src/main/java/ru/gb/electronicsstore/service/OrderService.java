@@ -2,6 +2,7 @@ package ru.gb.electronicsstore.service;
 
 import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
+import lombok.NonNull;
 import org.springframework.stereotype.Service;
 import ru.gb.electronicsstore.domain.Order;
 import ru.gb.electronicsstore.domain.OrdersDetails;
@@ -18,6 +19,7 @@ import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.util.*;
 import java.util.concurrent.ThreadLocalRandom;
+import java.util.stream.Collectors;
 
 @Service
 @AllArgsConstructor
@@ -165,16 +167,39 @@ public class OrderService {
         }
     }
 
+    @Transactional
     public boolean deleteOrderByIdWithStatusConstraint(Long id, OrderStatus[] statusesAllowed) {
         Optional<Order> orderOptional = orderRepository.findById(id);
         if (orderOptional.isPresent()) {
+            Order order = orderOptional.get();
             if (Arrays.stream(statusesAllowed)
-                    .anyMatch(x -> x.name().equalsIgnoreCase(orderOptional.get().getStatus()))) {
-                orderRepository.deleteById(id);
+                    .anyMatch(x -> x.name().equalsIgnoreCase(order.getStatus()))) {
+
+                // for yet unpaid orders - return all order's products back to stock
+                if (order.getStatus().equalsIgnoreCase(OrderStatus.CREATED.name())) {
+                    List<OrdersDetails> ordersDetails = oDetailsRepository.findByOrder(order);
+                    if (!ordersDetails.isEmpty()) {
+                        transferProductsToStockFromCancelledOrder(ordersDetails);
+                    }
+                }
+
+                orderRepository.delete(order);
+
                 return true;
             }
         }
         return false;
+    }
+
+    private void transferProductsToStockFromCancelledOrder(@NonNull List<OrdersDetails> ordersDetails) {
+        for (OrdersDetails oDetails : ordersDetails) {
+            Optional<Product> productOptional = productRepository.findById(oDetails.getProduct().getId());
+            if (productOptional.isPresent()) {
+                Product product = productOptional.get();
+                product.setQuantity(product.getQuantity() + oDetails.getQuantity());
+                productRepository.save(product);
+            }
+        }
     }
 
     public boolean deleteOrdersByStatus(String status) {
@@ -211,7 +236,7 @@ public class OrderService {
         }
     }
 
-    public List<Order> getOrdersByUserId(Long userId){
+    public List<Order> getOrdersByUserId(Long userId) {
         return orderRepository.findAll().stream()
                 .filter(x -> x.getUser().getId().equals(userId))
                 .toList();

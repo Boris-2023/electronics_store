@@ -13,7 +13,7 @@ spring:
   security:
     user:
       name: user
-      password: 1
+      password:
 server:
   port: 8000
 
