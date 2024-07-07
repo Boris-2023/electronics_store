@@ -5,6 +5,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.io.Serializable;
+import java.util.Objects;
 
 @Data
 @NoArgsConstructor
@@ -41,4 +42,30 @@ public class User implements Serializable {
     @Column(name = "user_role", length = 100, nullable = false)
     private String role;
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        User user = (User) o;
+
+        if (!Objects.equals(firstName, user.firstName)) return false;
+        if (!Objects.equals(lastName, user.lastName)) return false;
+        if (!Objects.equals(email, user.email)) return false;
+        if (!Objects.equals(phone, user.phone)) return false;
+        if (!Objects.equals(address, user.address)) return false;
+        return Objects.equals(role, user.role);
+    }
+
+    @Override
+    public int hashCode() {
+        int result = email != null ? email.hashCode() : 0;
+        result = 31 * result + (firstName != null ? firstName.hashCode() : 0);
+        result = 31 * result + (lastName != null ? lastName.hashCode() : 0);
+        result = 31 * result + (phone != null ? phone.hashCode() : 0);
+        result = 31 * result + (address != null ? address.hashCode() : 0);
+        result = 31 * result + (role != null ? role.hashCode() : 0);
+
+        return result;
+    }
 }

@@ -7,6 +7,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import ru.gb.electronicsstore.domain.Order;
 import ru.gb.electronicsstore.domain.Product;
 import ru.gb.electronicsstore.domain.dto.PaymentDTO;
 import ru.gb.electronicsstore.service.OrderService;
@@ -14,6 +15,7 @@ import ru.gb.electronicsstore.service.ProductService;
 
 import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Optional;
 
 @org.springframework.web.bind.annotation.RestController
 @AllArgsConstructor
@@ -40,9 +42,9 @@ public class ApiController {
             String userName = SecurityContextHolder.getContext().getAuthentication().getName();
 
             // userName == userEmail here
-            boolean isCreated = orderService.makeNewOrder(orderContent, userName);
+            Optional<Order> orderOptional = orderService.makeNewOrder(orderContent, userName);
 
-            if (isCreated) {
+            if (orderOptional.isPresent()) {
                 return ResponseEntity.status(HttpStatus.OK).build();
             } else {
                 return ResponseEntity.status(HttpStatus.I_AM_A_TEAPOT).build();

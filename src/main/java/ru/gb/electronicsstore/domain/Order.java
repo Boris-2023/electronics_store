@@ -6,6 +6,9 @@ import lombok.NoArgsConstructor;
 
 import java.io.Serializable;
 import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
+import java.time.format.DateTimeFormatter;
+import java.util.Objects;
 
 @Data
 @NoArgsConstructor
@@ -22,7 +25,7 @@ public class Order implements Serializable {
     private User user;
 
     @Column(nullable = false)
-    private double amount;
+    private Double amount;
 
     @Column(name = "date_order", nullable = false)
     private Timestamp orderDate;
@@ -41,4 +44,5 @@ public class Order implements Serializable {
 
     @Column(name = "payment_reference", nullable = false)
     private Long paymentReference = 0L;
+
 }

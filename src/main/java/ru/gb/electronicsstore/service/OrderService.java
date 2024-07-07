@@ -59,12 +59,12 @@ public class OrderService {
     }
 
     @Transactional
-    public boolean makeNewOrder(LinkedHashMap<Long, Long> content, String userEmail) {
+    public Optional<Order> makeNewOrder(LinkedHashMap<Long, Long> content, String userEmail) {
         Optional<User> userOptional = userRepository.findByEmail(userEmail);
+        Order order = new Order();
 
         if (userOptional.isPresent()) {
             User user = userOptional.get();
-            Order order = new Order();
             List<OrdersDetails> detailsList = new ArrayList<>(content.size());
 
             double amount = 0;
@@ -88,7 +88,7 @@ public class OrderService {
                         amount += oDetails.getQuantity() * oDetails.getPrice();
                     }
 
-                } else return false;
+                } else return Optional.empty();
 
             }
 
@@ -108,12 +108,12 @@ public class OrderService {
             orderRepository.save(order);
             oDetailsRepository.saveAll(detailsList);
 
-        } else return false;
+        } else return Optional.empty();
 
-        return true;
+        return Optional.of(order);
     }
 
-    private boolean transferProductsFromStockToOrder(Product product, OrdersDetails currentDetails) {
+    public boolean transferProductsFromStockToOrder(Product product, OrdersDetails currentDetails) {
 
         // adjusts order details if there is no enough product qty in stock
         if (currentDetails.getQuantity() > product.getQuantity()) currentDetails.setQuantity(product.getQuantity());
@@ -182,9 +182,7 @@ public class OrderService {
                         transferProductsToStockFromCancelledOrder(ordersDetails);
                     }
                 }
-
                 orderRepository.delete(order);
-
                 return true;
             }
         }
