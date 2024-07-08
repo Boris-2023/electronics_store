@@ -17,15 +17,16 @@ public class ProductService {
     private ProductRepository repository;
     private OrdersDetailsRepository detailsRepository;
 
-    public Product addProduct(Product product) {
+    public Boolean addProduct(Product product) {
         Optional<Product> productOptional = repository.findAll().stream()
                 .filter(x -> x.equals(product))
                 .findFirst();
         // do not save the product which is already in stock
         if (productOptional.isEmpty()) {
-            return repository.save(product);
+            repository.save(product);
+            return true;
         } else {
-            return null;
+            return false;
         }
     }
 
@@ -87,7 +88,7 @@ public class ProductService {
         }
     }
 
-    public Boolean deleteProductById(Long id) {
+    public Boolean deleteProductByIdWithOrderConstraint(Long id) {
         Optional<Product> productOptional = repository.findById(id);
         if (productOptional.isPresent()) {
             Product product = productOptional.get();

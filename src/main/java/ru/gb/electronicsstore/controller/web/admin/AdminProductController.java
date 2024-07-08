@@ -31,7 +31,7 @@ public class AdminProductController {
     @PostMapping("/product-create")
     public String createNewProduct(Product product) {
 
-        if (productService.addProduct(product) != null) {
+        if (productService.addProduct(product)) {
             return "redirect:/admin/products?created";
         } else {
             return "redirect:/admin/products?create_failed";
@@ -40,7 +40,7 @@ public class AdminProductController {
 
     @GetMapping("/product-delete/{id}")
     public String deleteProduct(@PathVariable("id") long id) {
-        Boolean isSucceeded = productService.deleteProductById(id);
+        Boolean isSucceeded = productService.deleteProductByIdWithOrderConstraint(id);
         if (isSucceeded) {
             return "redirect:/admin/products?deleted";
         }

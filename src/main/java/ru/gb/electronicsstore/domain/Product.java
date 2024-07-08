@@ -5,6 +5,7 @@ import jakarta.persistence.*;
 import lombok.NoArgsConstructor;
 
 import java.io.Serializable;
+import java.util.Objects;
 
 @Data
 @Entity
@@ -40,11 +41,28 @@ public class Product implements Serializable {
     @Column(nullable = false)
     private Boolean isActive;
 
-    public boolean equals(Product product){
-        return this.getName().replace(" ", "").equalsIgnoreCase(product.getName().replace(" ", ""))
-                && this.getManufacturer().replace(" ", "").equalsIgnoreCase(product.getManufacturer().replace(" ", ""))
-                && this.getModel().replace(" ", "").equalsIgnoreCase(product.getModel().replace(" ", ""))
-                && this.getCountryOrigin().replace(" ", "").equalsIgnoreCase(product.getCountryOrigin().replace(" ", ""))
-                && this.getPrice().equals(product.getPrice());
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Product product = (Product) o;
+
+        return name.replace(" ", "").equalsIgnoreCase(product.name.replace(" ", ""))
+                && manufacturer.replace(" ", "").equalsIgnoreCase(product.manufacturer.replace(" ", ""))
+                && model.replace(" ", "").equalsIgnoreCase(product.model.replace(" ", ""))
+                && countryOrigin.replace(" ", "").equalsIgnoreCase(product.countryOrigin.replace(" ", ""))
+                && price.equals(product.price);
+    }
+
+    @Override
+    public int hashCode() {
+        int result = name != null ? name.hashCode() : 0;
+        result = 31 * result + (manufacturer != null ? manufacturer.hashCode() : 0);
+        result = 31 * result + (model != null ? model.hashCode() : 0);
+        result = 31 * result + (countryOrigin != null ? countryOrigin.hashCode() : 0);
+        result = 31 * result + (price != null ? price.hashCode() : 0);
+
+        return result;
     }
 }

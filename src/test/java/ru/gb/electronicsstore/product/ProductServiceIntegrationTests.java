@@ -1,9 +1,9 @@
 package ru.gb.electronicsstore.product;
 
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.*;
-import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
 import ru.gb.electronicsstore.domain.OrdersDetails;
 import ru.gb.electronicsstore.domain.Product;
 import ru.gb.electronicsstore.repository.OrdersDetailsRepository;
@@ -17,16 +17,16 @@ import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
 
-@ExtendWith(MockitoExtension.class)
-public class ProductServiceModuleTests {
+@SpringBootTest
+public class ProductServiceIntegrationTests {
 
-    @Mock
+    @MockBean
     private ProductRepository productRepository;
 
-    @Mock
+    @MockBean
     private OrdersDetailsRepository detailsRepository;
 
-    @InjectMocks
+    @Autowired
     private ProductService service;
 
 
@@ -74,7 +74,6 @@ public class ProductServiceModuleTests {
         // performance check
         verify(productRepository).save(updatingProduct);
     }
-
 
     // test deleting a product: can delete only product, which is not included into an of existing orders
     @Test
