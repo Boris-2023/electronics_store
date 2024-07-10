@@ -11,6 +11,8 @@
     <link rel="preconnect" href="https://fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400&display=swap"
           rel="stylesheet">
+
+    <link th:href="@{/styles/bootstrap.min.css}" rel="stylesheet"/>
     <link th:href="@{/styles/style.css}" rel="stylesheet"/>
     <link th:href="@{/styles/norm.css}" rel="stylesheet"/>
 
@@ -20,7 +22,7 @@
 
 <div th:fragment="header">
     <div th:insert="~{fragments/disclaimer :: disclaimer}"></div>
-    <div class="header container">
+    <div class="header container__custom">
 
         <a class="logo header__logo" href="/products">
 
@@ -67,11 +69,11 @@
 
         </div>
     </div>
-    <div class="header__user-wrap container">
-        <a sec:authorize="!isAuthenticated()" class="header__user-transparent">Guest</a>
-        <a sec:authorize="isAuthenticated()">
-            <a class="header__user" sec:authentication="principal.username"></a>
-        </a>
+    <div class="header__user-wrap container__custom">
+        <div sec:authorize="!isAuthenticated()" class="header__user-transparent">Guest</div>
+        <div sec:authorize="isAuthenticated()">
+            <div class="header__user" sec:authentication="principal.username"></div>
+        </div>
     </div>
 </div>
 </body>

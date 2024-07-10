@@ -14,6 +14,7 @@ import ru.gb.electronicsstore.repository.OrdersDetailsRepository;
 import ru.gb.electronicsstore.repository.ProductRepository;
 import ru.gb.electronicsstore.repository.UserRepository;
 import ru.gb.electronicsstore.service.OrderService;
+import ru.gb.electronicsstore.service.implementation.OrderServiceImpl;
 
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
@@ -41,7 +42,7 @@ public class OrderServiceModuleTests {
     private OrdersDetailsRepository ordersDetailsRepository;
 
     @InjectMocks
-    private OrderService service;
+    private OrderServiceImpl service;
 
 
     // order creation test

@@ -4,6 +4,9 @@ import lombok.AllArgsConstructor;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import ru.gb.electronicsstore.aspect.TrackUserAction;
 import ru.gb.electronicsstore.domain.Order;
 import ru.gb.electronicsstore.domain.User;
 import ru.gb.electronicsstore.service.OrderService;
@@ -22,7 +25,7 @@ public class OrderController {
     OrdersDetailsService ordersDetailsService;
     UserService userService;
 
-    @GetMapping("/cart/order")
+    @RequestMapping(value = "/cart/order", method = RequestMethod.GET)
     public String displayOrder(Model model) {
 
         String userName = SecurityContextHolder.getContext().getAuthentication().getName();
@@ -55,7 +58,6 @@ public class OrderController {
         } else {
             //System.out.println("Order from WEB: No such USER!");
         }
-
         return "order";
     }
 
@@ -65,7 +67,7 @@ public class OrderController {
         String userName = SecurityContextHolder.getContext().getAuthentication().getName();
         User user = userService.getUserByEmail(userName).orElse(null);
 
-        model.addAttribute("orders", orderService.getOrdersByUserId(user.getId()));
+        model.addAttribute("orders", orderService.getOrderByUserId(user.getId()));
 
         return "user/orders";
     }

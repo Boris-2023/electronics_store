@@ -24,7 +24,7 @@
 <div th:insert="~{fragments/header :: header}"></div>
 <div th:insert="~{fragments/navbars :: navbar-profile}"></div>
 
-<main class="container">
+<main class="container__custom">
 
     <div class="form-block" th:switch="${orders}">
         <div th:case="null" class="fail__message">ЗАКАЗЫ НЕ НАЙДЕНЫ!</div>

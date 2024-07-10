@@ -11,6 +11,8 @@
     <link rel="preconnect" href="https://fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400&display=swap"
           rel="stylesheet">
+
+    <link th:href="@{/styles/bootstrap.min.css}" rel="stylesheet"/>
     <link th:href="@{/styles/style.css}" rel="stylesheet"/>
     <link th:href="@{/styles/norm.css}" rel="stylesheet"/>
     <link th:href="@{/styles/navbar.css}" rel="stylesheet"/>
@@ -22,9 +24,9 @@
 <div th:insert="~{fragments/header :: header}"></div>
 <div th:insert="~{fragments/navbars :: navbar}"></div>
 
-<div th:class="${!products.isEmpty()} ? 'display-none' : 'text-out'">Товары не найдены</div>
+<section class='promo__content promo_mrg container__custom'>
 
-<section class='promo__content promo_mrg container'>
+    <div th:class="${!products.isEmpty()} ? 'display-none' : 'fail__message'">Товары не найдены</div>
 
     <figure th:each="product : ${products}" class='promo__card'>
         <!--     <img class="product-img" th:src="@{'/images/img_big/card'+ ${product.id} + '.jpg'}" alt="Изображения пока нет">-->

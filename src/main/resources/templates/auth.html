@@ -11,6 +11,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400&display=swap"
           rel="stylesheet">
+    <link th:href="@{/styles/bootstrap.min.css}" rel="stylesheet"/>
     <link th:href="@{/styles/style.css}" rel="stylesheet"/>
     <link th:href="@{/styles/norm.css}" rel="stylesheet"/>
     <link th:href="@{/styles/navbar.css}" rel="stylesheet"/>
@@ -22,7 +23,7 @@
 <div th:insert="~{fragments/header :: header}"></div>
 <div th:insert="~{fragments/navbars :: navbar}"></div>
 
-<main class="auth container">
+<main class="auth container__custom">
 
     <div class="login_main_forms">
         <form class="auth__form" th:action="@{/auth}" method="post">

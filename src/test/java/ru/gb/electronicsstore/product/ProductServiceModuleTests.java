@@ -9,6 +9,7 @@ import ru.gb.electronicsstore.domain.Product;
 import ru.gb.electronicsstore.repository.OrdersDetailsRepository;
 import ru.gb.electronicsstore.repository.ProductRepository;
 import ru.gb.electronicsstore.service.ProductService;
+import ru.gb.electronicsstore.service.implementation.ProductServiceImpl;
 
 import java.util.List;
 import java.util.Optional;
@@ -27,7 +28,7 @@ public class ProductServiceModuleTests {
     private OrdersDetailsRepository detailsRepository;
 
     @InjectMocks
-    private ProductService service;
+    private ProductServiceImpl service;
 
 
     // test adding new product with check if such product exists already (=> cannot save)

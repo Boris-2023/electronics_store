@@ -11,6 +11,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400&display=swap"
           rel="stylesheet">
+    <link th:href="@{/styles/bootstrap.min.css}" rel="stylesheet"/>
     <link th:href="@{/styles/style.css}" rel="stylesheet"/>
     <link th:href="@{/styles/norm.css}" rel="stylesheet"/>
     <link th:href="@{/styles/navbar.css}" rel="stylesheet"/>
@@ -30,7 +31,7 @@
              onerror="this.onerror=null;this.src='/images/img_big/dummy.jpg';">
     </section>
 
-    <section class="product-page__info container">
+    <section class="product-page__info container__custom">
         <h2 class="product-page__h2 font18BoldSpecial" th:text="${product.name}">ТОВАР</h2>
         <h1 class="product-page__h1 font18Bold" th:text="${product.model}">МОДЕЛЬ</h1>
         <p class="product-page__text font14Dark"></p>

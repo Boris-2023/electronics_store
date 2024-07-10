@@ -12,7 +12,7 @@
     <link rel="stylesheet" th:href="@{/css/navbar.css}">
 </head>
 <body>
-<div th:fragment="navbar" class="container">
+<div th:fragment="navbar" class="container__custom">
     <nav class="navbar__custom">
         <span class="navbar__name">Лучший магазин электроники!</span>
 
@@ -28,7 +28,7 @@
         </ul>
     </nav>
 </div>
-<div th:fragment="navbar-admin" class="container">
+<div th:fragment="navbar-admin" class="container__custom">
     <nav class="navbar__custom">
         <span class="navbar__name">Панель Администратора</span>
         <ul class="nav-links">
@@ -40,7 +40,7 @@
     </nav>
     <br/>
 </div>
-<div th:fragment="navbar-profile" class="container">
+<div th:fragment="navbar-profile" class="container__custom">
     <nav class="navbar__custom">
         <span class="navbar__name">Профиль</span>
         <ul class="nav-links">

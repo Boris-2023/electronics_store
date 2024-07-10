@@ -23,7 +23,7 @@
 
 <div th:insert="~{fragments/navbars :: navbar-admin}"></div>
 
-<main class="container">
+<main class="container__custom">
 
     <p class="h4 fw-bolder">Изменение заказа:</p>
     <form class="form-block" th:action="@{/admin/order-update}" th:object="${order}" method="post">

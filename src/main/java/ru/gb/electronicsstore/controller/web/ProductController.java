@@ -3,6 +3,7 @@ package ru.gb.electronicsstore.controller.web;
 import lombok.AllArgsConstructor;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import ru.gb.electronicsstore.aspect.TrackUserAction;
 import ru.gb.electronicsstore.service.ProductService;
 
 @org.springframework.stereotype.Controller
@@ -37,7 +38,8 @@ public class ProductController {
     }
 
     // page for particular product
-    @GetMapping("/products/card")
+    @TrackUserAction
+    @RequestMapping(value = "/products/card", method = RequestMethod.GET)
     public String getProductsById(Model model, @RequestParam Long id) {
         model.addAttribute("product", service.getActiveProductById(id).orElseGet(null));
 

@@ -23,7 +23,7 @@
 
 <div th:insert="~{fragments/navbars :: navbar-admin}"></div>
 
-<main class="container">
+<main class="container__custom">
 
     <div class="form-block" th:switch="${products}">
         <div th:case="null" class="fail__message">ТОВАРЫ НЕ НАЙДЕНЫ!</div>

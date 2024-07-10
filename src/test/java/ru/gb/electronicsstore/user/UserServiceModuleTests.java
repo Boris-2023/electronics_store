@@ -10,6 +10,7 @@ import ru.gb.electronicsstore.domain.dto.UserDTO;
 import ru.gb.electronicsstore.repository.OrderRepository;
 import ru.gb.electronicsstore.repository.UserRepository;
 import ru.gb.electronicsstore.service.UserService;
+import ru.gb.electronicsstore.service.implementation.UserServiceImpl;
 
 import java.util.Optional;
 
@@ -27,7 +28,7 @@ public class UserServiceModuleTests {
     private OrderRepository orderRepository;
 
     @InjectMocks
-    private UserService service;
+    private UserServiceImpl service;
 
 
     // test if new user is added correctly
