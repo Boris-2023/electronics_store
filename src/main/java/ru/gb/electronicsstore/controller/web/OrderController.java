@@ -25,13 +25,19 @@ public class OrderController {
     OrdersDetailsService ordersDetailsService;
     UserService userService;
 
+    // display current order - most recent for this authorized user (taken from security context)
+    @TrackUserAction
     @RequestMapping(value = "/cart/order", method = RequestMethod.GET)
-    public String displayOrder(Model model) {
+    public String displayCurrentOrder(Model model) {
 
+        // retrieves user
         String userName = SecurityContextHolder.getContext().getAuthentication().getName();
-        User user = userService.getUserByEmail(userName).orElse(null);
+        Optional<User> userOpt = userService.getUserByEmail(userName);
 
-        if (user != null) {
+        if (userOpt.isPresent()) {
+            User user = userOpt.get();
+
+            // retrieves current order by this user
             Optional<Order> orderOptional = orderService.getMostRecentOrderByUserId(user.getId());
             if (orderOptional.isPresent()) {
                 Order order = orderOptional.get();
@@ -56,14 +62,18 @@ public class OrderController {
                 //System.out.println("Order from WEB: No such ORDER!");
             }
         } else {
+            model.addAttribute("order_number", -1);
             //System.out.println("Order from WEB: No such USER!");
         }
         return "order";
     }
 
-    @GetMapping("/profile/orders")
+    // display all orders by this authorized user
+    @TrackUserAction
+    @RequestMapping(value = "/profile/orders", method = RequestMethod.GET)
     public String getOrdersForCurrentUser(Model model) {
 
+        // gets user from security context
         String userName = SecurityContextHolder.getContext().getAuthentication().getName();
         User user = userService.getUserByEmail(userName).orElse(null);
 

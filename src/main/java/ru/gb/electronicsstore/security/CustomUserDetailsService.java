@@ -14,10 +14,10 @@ import java.util.Optional;
 public class CustomUserDetailsService implements UserDetailsService {
 
     @Autowired
-    UserService service;
+    UserService userService;
 
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        Optional<User> user = service.getUserByEmail(username);
+        Optional<User> user = userService.getUserByEmail(username);
 
         return user.map(CustomUserDetails::new)
                 .orElseThrow(() -> new UsernameNotFoundException(username + "Такой пользователь не найден!"));

@@ -13,7 +13,6 @@ import ru.gb.electronicsstore.repository.OrderRepository;
 import ru.gb.electronicsstore.repository.OrdersDetailsRepository;
 import ru.gb.electronicsstore.repository.ProductRepository;
 import ru.gb.electronicsstore.repository.UserRepository;
-import ru.gb.electronicsstore.service.OrderService;
 import ru.gb.electronicsstore.service.implementation.OrderServiceImpl;
 
 import java.sql.Timestamp;
@@ -42,7 +41,7 @@ public class OrderServiceModuleTests {
     private OrdersDetailsRepository ordersDetailsRepository;
 
     @InjectMocks
-    private OrderServiceImpl service;
+    private OrderServiceImpl orderService;
 
 
     // order creation test
@@ -77,7 +76,7 @@ public class OrderServiceModuleTests {
         given(productRepository.findById(2L)).willReturn(Optional.of(product2));
 
         // action
-        service.makeNewOrder(productsIdAndQty, user.getEmail());
+        orderService.makeNewOrder(productsIdAndQty, user.getEmail());
 
         // result check
         verify(orderRepository).save(userArgumentCaptor.capture());
@@ -105,7 +104,7 @@ public class OrderServiceModuleTests {
         given(orderRepository.findById(1L)).willReturn(Optional.of(new Order()));// stubbing - repo's behaviour
 
         // action
-        service.updateOrderParameters(1L, orderUpdated);
+        orderService.updateOrderParameters(1L, orderUpdated);
 
         // performance check
         verify(orderRepository).save(orderUpdated);
@@ -131,9 +130,9 @@ public class OrderServiceModuleTests {
         given(orderRepository.findById(3L)).willReturn(Optional.of(orderCompleted));
 
         // action
-        service.deleteOrderByIdWithStatusConstraint(1L, statusesAllowedToDelete);
-        service.deleteOrderByIdWithStatusConstraint(2L, statusesAllowedToDelete);
-        service.deleteOrderByIdWithStatusConstraint(3L, statusesAllowedToDelete);
+        orderService.deleteOrderByIdWithStatusConstraint(1L, statusesAllowedToDelete);
+        orderService.deleteOrderByIdWithStatusConstraint(2L, statusesAllowedToDelete);
+        orderService.deleteOrderByIdWithStatusConstraint(3L, statusesAllowedToDelete);
 
         // performance check
         verify(orderRepository).delete(orderCreated);

@@ -468,7 +468,7 @@ body {
     text-transform: uppercase;
 }
 
-.mail_fontSize12Dark,
+.text_fontSize12Dark,
 .shipping__text_fs12DarkLow {
     font-size: 12px;
     color: rgb(34, 34, 34);

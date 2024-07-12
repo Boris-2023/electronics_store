@@ -3,6 +3,7 @@ package ru.gb.electronicsstore.controller.web.admin;
 import lombok.AllArgsConstructor;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import ru.gb.electronicsstore.aspect.TrackUserAction;
 import ru.gb.electronicsstore.domain.User;
 import ru.gb.electronicsstore.service.UserService;
 
@@ -15,13 +16,15 @@ public class AdminUserController {
 
     UserService userService;
 
-    @GetMapping("/users")
+    @TrackUserAction
+    @RequestMapping(value = "/users", method = RequestMethod.GET)
     public String getAllUsers(Model model) {
         model.addAttribute("users", userService.getAllUsers());
         return "admin/users";
     }
 
-    @GetMapping("/user-delete/{id}")
+    @TrackUserAction
+    @RequestMapping(value = "/user-delete/{id}", method = RequestMethod.GET)
     public String deleteUserWithOrderConstraints(@PathVariable("id") long id) {
         // cannot delete user with orders in process
         boolean isSucceeded = userService.deleteUserByIdWithOrderConstraint(id);
@@ -31,7 +34,8 @@ public class AdminUserController {
         return "redirect:/admin/users?delete_failed";
     }
 
-    @GetMapping("/user-update/{id}")
+    @TrackUserAction
+    @RequestMapping(value = "/user-update/{id}", method = RequestMethod.GET)
     public String updateUserForm(@PathVariable("id") long id, Model model) {
         Optional<User> userOptional = userService.getUserById(id);
         if (userOptional.isPresent()) {
@@ -41,7 +45,8 @@ public class AdminUserController {
         return "redirect:/admin/users?search_failed";
     }
 
-    @PostMapping("/user-update")
+    @TrackUserAction
+    @RequestMapping(value = "/user-update", method = RequestMethod.POST)
     public String updateUser(User user) {
         userService.updateUserParameters(user.getId(), user);
         return "redirect:/admin/users?updated";

@@ -4,6 +4,9 @@ import jakarta.persistence.*;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+/**
+ * @apiNote Class to keep products with their quantity for all order with ref to the order
+ */
 @Data
 @NoArgsConstructor
 @Entity

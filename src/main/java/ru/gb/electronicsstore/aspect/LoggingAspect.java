@@ -9,54 +9,66 @@ import org.aspectj.lang.annotation.Before;
 import org.aspectj.lang.reflect.MethodSignature;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.context.request.RequestAttributes;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
+import java.net.http.HttpRequest;
 import java.util.Arrays;
 
-// класс аспектов
+// Aspects Class
 @Aspect
-//@Slf4j
+@Slf4j
 public class LoggingAspect {
 
-    // перед методом с анно @TrackUserAction в консоль выводится его название
+    private final StringBuilder record = new StringBuilder();
+
+    // before any method with anno @TrackUserAction: retrieve & add data for the record
     @Before(value = "@annotation(TrackUserAction)")
     public void beforeAdvice(JoinPoint jp) {
-    //@AfterReturning(value = "@annotation(TrackUserAction))", returning = "returnedValue")
-    //public void beforeAdvice(JoinPoint jp, Object returnedValue) {
-
-        System.out.println(LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")));
 
         MethodSignature ms = (MethodSignature) jp.getSignature();
-
-        System.out.println(Arrays.stream(ms.getMethod().getAnnotation(RequestMapping.class).value()).findFirst().get());
-        System.out.println(Arrays.stream(ms.getMethod().getAnnotation(RequestMapping.class).method()).findFirst().get());
-        System.out.println("Method CALL detected: " + ms.getName() + "()");
-
-        String userName = SecurityContextHolder.getContext().getAuthentication().getName();
-        System.out.println(userName);
-
         RequestAttributes ra = RequestContextHolder.currentRequestAttributes();
-
         HttpSession s = (HttpSession) ra.resolveReference(RequestAttributes.REFERENCE_SESSION);
-        System.out.println(s.getId());
 
-        String ipAddr = ((ServletRequestAttributes) ra).getRequest().getRemoteAddr();
-        System.out.println(ipAddr);
-
-        //log.info("Hello!!!");
-
+        record.append("user: ").append(SecurityContextHolder.getContext().getAuthentication().getName());
+        record.append(", ip: ").append(((ServletRequestAttributes) ra).getRequest().getRemoteAddr());
+        // logString.append(", session: ").append(s.getId());
+        record.append(", address: ").append(Arrays.stream(ms.getMethod().getAnnotation(RequestMapping.class).value()).findFirst()
+                .orElseGet(() -> "/"));
+        record.append(", request: ").append(Arrays.stream(ms.getMethod().getAnnotation(RequestMapping.class).method()).findFirst()
+                .orElseGet(() -> RequestMethod.GET));
+        record.append(", class: ").append(ms.getDeclaringType().getSimpleName());
+        record.append(", method: ").append(ms.getName());
     }
 
-    // после того, как метод отработал, в консоль выводится результат его работы
+    // after any method with anno @TrackUserAction: analyse & add method return, request record posting
     @AfterReturning(value = "@annotation(TrackUserAction)", returning = "returnedValue")
     public void log(Object returnedValue) {
-        String out = returnedValue.toString();
-        if (!out.equalsIgnoreCase("redirect/")) out += ".html";
-        System.out.println("Return value = " + out);
+        String out;
+        String returnClassName = returnedValue.getClass().getSimpleName();
+
+        // web controllers return String
+        if (returnClassName.equalsIgnoreCase("string")) {
+            out = (String) returnedValue;
+            if (!out.contains("redirect:/")) {
+                out += ".html";
+            }
+        // for api controller - response entity is too long to log => cut to response only
+        } else {
+            out = returnedValue.toString();
+            out = out.replace(",[", ">@@@").split("@@@")[0];
+        }
+
+        record.append(", return: ").append(out);
+
+        postRecord();
+    }
+
+    private void postRecord() {
+        log.info(record.toString());
+        record.setLength(0);
     }
 }
 

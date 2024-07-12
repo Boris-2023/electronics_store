@@ -10,38 +10,42 @@ import ru.gb.electronicsstore.service.ProductService;
 @AllArgsConstructor
 public class ProductController {
 
-    private ProductService service;
+    private ProductService productService;
 
-    @GetMapping
+    // display all products with photos
+    @TrackUserAction
+    @RequestMapping(method = RequestMethod.GET)
     public String getAllProducts(Model model) {
 
-        model.addAttribute("products", service.getActiveProductsInStockByText(""));
+        model.addAttribute("products", productService.getActiveProductsInStockByText(""));
 
         return "products";
     }
 
-    // for search
-    @GetMapping("/products")
+    // display all products with photos, which match search phrase (input on top of the page)
+    @TrackUserAction
+    @RequestMapping(value = "/products", method = RequestMethod.GET)
     public String getActiveProductsByText(Model model, @RequestParam(defaultValue = "") String search) {
 
-        model.addAttribute("products", service.getActiveProductsInStockByText(search));
+        model.addAttribute("products", productService.getActiveProductsInStockByText(search));
         model.addAttribute("value", search);
 
         return "products";
     }
 
-    // return a list of products based on id numbers provided
-    @GetMapping("/cart")
+    // display the cart, most routine is performed by JS-code in the page
+    @TrackUserAction
+    @RequestMapping(value = "/cart", method = RequestMethod.GET)
     public String getProductsByIds() {
 
         return "cart";
     }
 
-    // page for particular product
+    // display particular product by its id
     @TrackUserAction
     @RequestMapping(value = "/products/card", method = RequestMethod.GET)
     public String getProductsById(Model model, @RequestParam Long id) {
-        model.addAttribute("product", service.getActiveProductById(id).orElseGet(null));
+        model.addAttribute("product", productService.getActiveProductById(id).orElseGet(null));
 
         return "card";
     }

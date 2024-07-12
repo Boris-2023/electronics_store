@@ -15,11 +15,11 @@ import java.util.List;
 @AllArgsConstructor
 public class OrdersDetailsServiceImpl implements OrdersDetailsService {
 
-    OrdersDetailsRepository repository;
+    OrdersDetailsRepository oDetailsRepository;
 
     public List<OrdersDetails> getProductsByOrderId(Long id) {
         try {
-            return repository.findAll().stream()
+            return oDetailsRepository.findAll().stream()
                     .filter(x -> (x.getOrder().getId()).equals(id))
                     .toList();
         } catch (Exception e) {

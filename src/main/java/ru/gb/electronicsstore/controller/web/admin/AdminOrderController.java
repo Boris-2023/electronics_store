@@ -3,6 +3,7 @@ package ru.gb.electronicsstore.controller.web.admin;
 import lombok.AllArgsConstructor;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import ru.gb.electronicsstore.aspect.TrackUserAction;
 import ru.gb.electronicsstore.domain.Order;
 import ru.gb.electronicsstore.domain.enums.OrderStatus;
 import ru.gb.electronicsstore.service.OrderService;
@@ -16,13 +17,15 @@ public class AdminOrderController {
 
     OrderService orderService;
 
-    @GetMapping("/orders")
+    @TrackUserAction
+    @RequestMapping(value = "/orders", method = RequestMethod.GET)
     public String getAllOrders(Model model) {
         model.addAttribute("orders", orderService.getAllOrders());
         return "admin/orders";
     }
 
-    @GetMapping("/order-delete/{id}")
+    @TrackUserAction
+    @RequestMapping(value = "/order-delete/{id}", method = RequestMethod.GET)
     public String deleteOrderWithStatusConstraints(@PathVariable("id") long id) {
         boolean isSucceeded = orderService.deleteOrderByIdWithStatusConstraint(id,
                 new OrderStatus[]{OrderStatus.CREATED, OrderStatus.COMPLETED});
@@ -32,7 +35,8 @@ public class AdminOrderController {
         return "redirect:/admin/orders?delete_failed";
     }
 
-    @GetMapping("/order-update/{id}")
+    @TrackUserAction
+    @RequestMapping(value = "/order-update/{id}", method = RequestMethod.GET)
     public String updateOrderForm(@PathVariable("id") long id, Model model) {
         Optional<Order> orderOptional = orderService.getOrderById(id);
         if (orderOptional.isPresent()) {
@@ -42,7 +46,8 @@ public class AdminOrderController {
         return "redirect:/admin/orders?search_failed";
     }
 
-    @PostMapping("/order-update")
+    @TrackUserAction
+    @RequestMapping(value = "/order-update", method = RequestMethod.POST)
     public String updateOrder(Order order) {
         orderService.updateOrderParameters(order.getId(), order);
         return "redirect:/admin/orders?updated";

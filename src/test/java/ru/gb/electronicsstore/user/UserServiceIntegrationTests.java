@@ -9,7 +9,6 @@ import ru.gb.electronicsstore.domain.User;
 import ru.gb.electronicsstore.domain.dto.UserDTO;
 import ru.gb.electronicsstore.repository.OrderRepository;
 import ru.gb.electronicsstore.repository.UserRepository;
-import ru.gb.electronicsstore.service.UserService;
 import ru.gb.electronicsstore.service.implementation.UserServiceImpl;
 
 import java.util.Optional;
@@ -28,7 +27,7 @@ public class UserServiceIntegrationTests {
     private OrderRepository orderRepository;
 
     @Autowired
-    private UserServiceImpl service;
+    private UserServiceImpl userService;
 
 
     // test new user adding
@@ -47,7 +46,7 @@ public class UserServiceIntegrationTests {
         User user = createUserFromDTO(dto);
 
         // action
-        service.addUser(dto);
+        userService.addUser(dto);
 
         // result check
         verify(userRepository).save(user);
@@ -75,7 +74,7 @@ public class UserServiceIntegrationTests {
         given(userRepository.findById(1L)).willReturn(Optional.of(user));// describe repo's behaviour
 
         // action
-        service.updateUserParameters(1L, userUpdated);
+        userService.updateUserParameters(1L, userUpdated);
 
         // performance check
         verify(userRepository).findById(1L);
@@ -106,8 +105,8 @@ public class UserServiceIntegrationTests {
         given(orderRepository.findFirstByUser(userWithOrder)).willReturn(Optional.of(new Order()));
 
         // action
-        service.deleteUserByIdWithOrderConstraint(1L);
-        service.deleteUserByIdWithOrderConstraint(2L);
+        userService.deleteUserByIdWithOrderConstraint(1L);
+        userService.deleteUserByIdWithOrderConstraint(2L);
 
         // performance check
         verify(userRepository).delete(userNoOrder);

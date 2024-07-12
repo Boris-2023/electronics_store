@@ -16,17 +16,17 @@ import java.util.Optional;
 @AllArgsConstructor
 public class ProductServiceImpl implements ProductService {
 
-    private ProductRepository repository;
-    private OrdersDetailsRepository detailsRepository;
+    private ProductRepository productRepository;
+    private OrdersDetailsRepository oDetailsRepository;
 
     public Boolean addProduct(Product product) {
         try {
-            Optional<Product> productOptional = repository.findAll().stream()
+            Optional<Product> productOptional = productRepository.findAll().stream()
                     .filter(x -> x.equals(product))
                     .findFirst();
             // do not save the product which is already in stock
             if (productOptional.isEmpty()) {
-                repository.save(product);
+                productRepository.save(product);
                 return true;
             } else {
                 return false;
@@ -39,7 +39,7 @@ public class ProductServiceImpl implements ProductService {
 
     public List<Product> getAllProducts() {
         try {
-            return repository.findAll();
+            return productRepository.findAll();
         } catch (Exception e) {
             System.out.println("Fail to connect database in getAllProducts(): " + e.getMessage());
             return new ArrayList<>();
@@ -48,7 +48,7 @@ public class ProductServiceImpl implements ProductService {
 
     public List<Product> getProductsWithinPriceRange(Double low, Double high) {
         try {
-            return repository.findAll().stream()
+            return productRepository.findAll().stream()
                     .filter(x -> x.getPrice() >= low && x.getPrice() <= high)
                     .toList();
         } catch (Exception e) {
@@ -60,7 +60,7 @@ public class ProductServiceImpl implements ProductService {
     public List<Product> getActiveProductsInStockByText(String text) {
         try {
             final String testString = text.replace(" ", "").toLowerCase();
-            return repository.findAll().stream()
+            return productRepository.findAll().stream()
                     .filter(x -> (x.getName() + x.getManufacturer() + x.getModel()).toLowerCase().contains(testString) && x.getQuantity() > 0 && x.getIsActive())
                     .toList();
         } catch (Exception e) {
@@ -71,10 +71,10 @@ public class ProductServiceImpl implements ProductService {
 
     public Optional<Product> getActiveProductById(Long id) {
         try {
-            Optional<Product> productOptional = repository.findById(id);
+            Optional<Product> productOptional = productRepository.findById(id);
             // only active product can be returned - for clients
             if (productOptional.isPresent() && productOptional.get().getIsActive()) {
-                return repository.findById(id);
+                return productRepository.findById(id);
             } else {
                 return Optional.empty();
             }
@@ -86,7 +86,7 @@ public class ProductServiceImpl implements ProductService {
 
     public Optional<Product> getProductById(Long id) {
         try {
-            return repository.findById(id);
+            return productRepository.findById(id);
         } catch (Exception e) {
             System.out.println("Failed to connect database in getProductsById(): " + e.getMessage());
             return Optional.empty();
@@ -95,7 +95,7 @@ public class ProductServiceImpl implements ProductService {
 
     public List<Product> getProductsByIds(List<Long> ids) {
         try {
-            return repository.findAll().stream()
+            return productRepository.findAll().stream()
                     .filter(x -> ids.contains(x.getId()))
                     .toList();
         } catch (Exception e) {
@@ -106,7 +106,7 @@ public class ProductServiceImpl implements ProductService {
 
     public boolean updateProductParameters(Long id, Product product) {
         try {
-            Optional<Product> optionalProduct = repository.findById(id);
+            Optional<Product> optionalProduct = productRepository.findById(id);
 
             if (optionalProduct.isPresent()) {
                 Product destinationProduct = optionalProduct.get();
@@ -117,7 +117,7 @@ public class ProductServiceImpl implements ProductService {
                 destinationProduct.setPrice(product.getPrice());
                 destinationProduct.setIsActive(product.getIsActive());
 
-                repository.save(destinationProduct);
+                productRepository.save(destinationProduct);
                 return true;
             } else {
                 return false;
@@ -131,18 +131,18 @@ public class ProductServiceImpl implements ProductService {
 
     public Boolean deleteProductByIdWithOrderConstraint(Long id) {
         try {
-            Optional<Product> productOptional = repository.findById(id);
+            Optional<Product> productOptional = productRepository.findById(id);
             if (productOptional.isPresent()) {
                 Product product = productOptional.get();
 
                 // finds orders with this product included
-                Optional<OrdersDetails> foundOrderOptional = detailsRepository.findAll().stream()
+                Optional<OrdersDetails> foundOrderOptional = oDetailsRepository.findAll().stream()
                         .filter(x -> x.getProduct().equals(product))
                         .findFirst();
 
                 // can delete only products which are not included in any existing order
                 if (foundOrderOptional.isEmpty()) {
-                    repository.delete(product);
+                    productRepository.delete(product);
                     return true;
                     // turns off its availability for clients
                 } else {

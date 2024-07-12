@@ -8,7 +8,6 @@ import ru.gb.electronicsstore.domain.OrdersDetails;
 import ru.gb.electronicsstore.domain.Product;
 import ru.gb.electronicsstore.repository.OrdersDetailsRepository;
 import ru.gb.electronicsstore.repository.ProductRepository;
-import ru.gb.electronicsstore.service.ProductService;
 import ru.gb.electronicsstore.service.implementation.ProductServiceImpl;
 
 import java.util.List;
@@ -28,7 +27,7 @@ public class ProductServiceModuleTests {
     private OrdersDetailsRepository detailsRepository;
 
     @InjectMocks
-    private ProductServiceImpl service;
+    private ProductServiceImpl productService;
 
 
     // test adding new product with check if such product exists already (=> cannot save)
@@ -45,8 +44,8 @@ public class ProductServiceModuleTests {
         given(productRepository.findAll()).willReturn(List.of(product)); // this product exists already
 
         // action
-        service.addProduct(product); // must fail
-        service.addProduct(productNew); // must succeed
+        productService.addProduct(product); // must fail
+        productService.addProduct(productNew); // must succeed
 
         // result check
         verify(productRepository, never()).save(product);
@@ -70,7 +69,7 @@ public class ProductServiceModuleTests {
         given(productRepository.findById(1L)).willReturn(Optional.of(destinationProduct));// describe repo's behaviour
 
         // action
-        service.updateProductParameters(1L, updatingProduct);
+        productService.updateProductParameters(1L, updatingProduct);
 
         // performance check
         verify(productRepository).save(updatingProduct);
@@ -97,8 +96,8 @@ public class ProductServiceModuleTests {
         given(detailsRepository.findAll()).willReturn(List.of(oDetails));
 
         // action
-        service.deleteProductByIdWithOrderConstraint(1L);
-        service.deleteProductByIdWithOrderConstraint(2L);
+        productService.deleteProductByIdWithOrderConstraint(1L);
+        productService.deleteProductByIdWithOrderConstraint(2L);
 
         // performance check
         verify(productRepository).delete(productNoOrdersIncludedIn);

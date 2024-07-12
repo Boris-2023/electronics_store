@@ -7,6 +7,8 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import ru.gb.electronicsstore.aspect.TrackUserAction;
 import ru.gb.electronicsstore.domain.Order;
 import ru.gb.electronicsstore.domain.Product;
 import ru.gb.electronicsstore.domain.dto.PaymentDTO;
@@ -25,8 +27,9 @@ public class ApiController {
     private ProductService productService;
     private OrderService orderService;
 
-    // list of products by ids provided, POST request used as GET does not allow BODY inside
-    @PostMapping("/products")
+    // list of products by ids provided, POST request is used as GET does not allow BODY inside
+    @TrackUserAction
+    @RequestMapping(value = "/products", method = RequestMethod.POST)
     public ResponseEntity<List<Product>> getProductsByIds(@RequestBody(required = false) List<Long> ids) {
         if (!ids.isEmpty()) {
             return new ResponseEntity<>(productService.getProductsByIds(ids), HttpStatus.OK);
@@ -35,7 +38,9 @@ public class ApiController {
         }
     }
 
-    @PostMapping("/order")
+    // creates new order based on the Map<Long productId, Long Quantity>; user id - from Security context
+    @TrackUserAction
+    @RequestMapping(value = "/order", method = RequestMethod.POST)
     public ResponseEntity<List<Product>> makeNewOrder(@RequestBody LinkedHashMap<Long, Long> orderContent) {
         if (!orderContent.isEmpty()) {
 
@@ -54,7 +59,9 @@ public class ApiController {
         }
     }
 
-    @PostMapping("/payment")
+    // simulates payment routine based on payment dto received
+    @TrackUserAction
+    @RequestMapping(value = "/payment", method = RequestMethod.POST)
     public ResponseEntity<Long> makePayment(@RequestBody PaymentDTO paymentDTO) {
         if (paymentDTO != null) {
 

@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import ru.gb.electronicsstore.aspect.TrackUserAction;
 import ru.gb.electronicsstore.domain.User;
 import ru.gb.electronicsstore.domain.dto.UserDTO;
 import ru.gb.electronicsstore.service.UserService;
@@ -14,9 +15,10 @@ import java.util.Optional;
 @AllArgsConstructor
 public class UserController {
 
-    private UserService service;
+    private UserService userService;
 
-    @PostMapping("/auth/registration")
+    @TrackUserAction
+    @RequestMapping(value = "/auth/registration", method = RequestMethod.POST)
     public String addUser(
             @RequestParam(value = "firstName") String firstName,
             @RequestParam(value = "lastName") String lastName,
@@ -35,8 +37,8 @@ public class UserController {
         userDTO.setPhone(phone);
         userDTO.setAddress(address);
 
-        boolean isRegisteredOK = false;
-        isRegisteredOK = service.addUser(userDTO);
+        boolean isRegisteredOK;
+        isRegisteredOK = userService.addUser(userDTO);
 
         // to ensure registration confirmation - only to customers who have just come from auth page
         model.addAttribute("isRegistered", isRegisteredOK);
@@ -46,27 +48,30 @@ public class UserController {
         return "redirect:/auth?reg_error";
     }
 
-    @GetMapping("/auth")
+    @TrackUserAction
+    @RequestMapping(value = "/auth", method = RequestMethod.GET)
     public String getLoginPage() {
         return "auth";
     }
 
-    @GetMapping("/profile")
+    @TrackUserAction
+    @RequestMapping(value = "/profile", method = RequestMethod.GET)
     public String displayUserData(Model model) {
 
         String userName = SecurityContextHolder.getContext().getAuthentication().getName();
-        User user = service.getUserByEmail(userName).orElse(null);
+        User user = userService.getUserByEmail(userName).orElse(null);
 
         model.addAttribute("user", user);
 
         return "user/profile";
     }
 
-    @GetMapping("/profile/edit")
+    @TrackUserAction
+    @RequestMapping(value = "/profile/edit", method = RequestMethod.GET)
     public String editUserForm(Model model) {
 
         String userName = SecurityContextHolder.getContext().getAuthentication().getName();
-        Optional<User> userOptional = service.getUserByEmail(userName);
+        Optional<User> userOptional = userService.getUserByEmail(userName);
 
         if (userOptional.isPresent()) {
             model.addAttribute("user", userOptional.get());
@@ -75,9 +80,10 @@ public class UserController {
         return "redirect:/profile?search_failed";
     }
 
-    @PostMapping("/profile/edit")
+    @TrackUserAction
+    @RequestMapping(value = "/profile/edit", method = RequestMethod.POST)
     public String updateUser(User user) {
-        service.updateUserParameters(user.getId(), user);
+        userService.updateUserParameters(user.getId(), user);
         return "redirect:/profile";
     }
 }

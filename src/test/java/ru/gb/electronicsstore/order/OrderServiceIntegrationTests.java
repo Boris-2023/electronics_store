@@ -42,7 +42,7 @@ public class OrderServiceIntegrationTests {
     private OrdersDetailsRepository ordersDetailsRepository;
 
     @Autowired
-    private OrderService service;
+    private OrderService orderService;
 
     // order creation test
     @Test
@@ -76,7 +76,7 @@ public class OrderServiceIntegrationTests {
         given(productRepository.findById(2L)).willReturn(Optional.of(product2));
 
         // action
-        service.makeNewOrder(productsIdAndQty, user.getEmail());
+        orderService.makeNewOrder(productsIdAndQty, user.getEmail());
 
         // result check
         verify(orderRepository).save(userArgumentCaptor.capture());
@@ -104,7 +104,7 @@ public class OrderServiceIntegrationTests {
         given(orderRepository.findById(1L)).willReturn(Optional.of(new Order()));// stubbing - repo's behaviour
 
         // action
-        service.updateOrderParameters(1L, orderUpdated);
+        orderService.updateOrderParameters(1L, orderUpdated);
 
         // performance check
         verify(orderRepository).save(orderUpdated);
@@ -130,9 +130,9 @@ public class OrderServiceIntegrationTests {
         given(orderRepository.findById(3L)).willReturn(Optional.of(orderCompleted));
 
         // action
-        service.deleteOrderByIdWithStatusConstraint(1L, statusesAllowedToDelete);
-        service.deleteOrderByIdWithStatusConstraint(2L, statusesAllowedToDelete);
-        service.deleteOrderByIdWithStatusConstraint(3L, statusesAllowedToDelete);
+        orderService.deleteOrderByIdWithStatusConstraint(1L, statusesAllowedToDelete);
+        orderService.deleteOrderByIdWithStatusConstraint(2L, statusesAllowedToDelete);
+        orderService.deleteOrderByIdWithStatusConstraint(3L, statusesAllowedToDelete);
 
         // performance check
         verify(orderRepository).delete(orderCreated);
