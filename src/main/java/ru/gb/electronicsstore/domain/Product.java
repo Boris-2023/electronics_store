@@ -8,11 +8,10 @@ import java.io.Serializable;
 import java.util.Objects;
 
 @Data
+@NoArgsConstructor
 @Entity
 @Table(name = "products")
-@NoArgsConstructor
 public class Product implements Serializable {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;

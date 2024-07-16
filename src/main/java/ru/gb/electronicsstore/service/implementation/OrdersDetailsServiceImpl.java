@@ -17,6 +17,7 @@ public class OrdersDetailsServiceImpl implements OrdersDetailsService {
 
     OrdersDetailsRepository oDetailsRepository;
 
+    // gets all products listed for the order requested
     public List<OrdersDetails> getProductsByOrderId(Long id) {
         try {
             return oDetailsRepository.findAll().stream()
@@ -28,6 +29,7 @@ public class OrdersDetailsServiceImpl implements OrdersDetailsService {
         }
     }
 
+    // gets products data for the order by its id provided
     public LinkedHashMap<String, List<String>> getProductsDataForOrderById(Long orderId) {
         try {
             LinkedHashMap<String, List<String>> products = new LinkedHashMap<>();

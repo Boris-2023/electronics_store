@@ -29,6 +29,7 @@ public class OrderServiceImpl implements OrderService {
     UserRepository userRepository;
     OrdersDetailsRepository oDetailsRepository;
 
+    // return a list of all orders in database
     public List<Order> getAllOrders() {
         try {
             return orderRepository.findAll();
@@ -38,6 +39,7 @@ public class OrderServiceImpl implements OrderService {
         }
     }
 
+    // gets order by its id
     public Optional<Order> getOrderById(Long id) {
         try {
             return orderRepository.findById(id);
@@ -47,7 +49,7 @@ public class OrderServiceImpl implements OrderService {
         }
     }
 
-
+    // gets order by its user's id
     public List<Order> getOrderByUserId(Long userId) {
         try {
             return orderRepository.findAll().stream()
@@ -71,6 +73,7 @@ public class OrderServiceImpl implements OrderService {
         }
     }
 
+    // gets last listed order for the user - to display current order
     public Optional<Order> getMostRecentOrderByUserId(Long user_id) {
         try {
             return orderRepository.findAll().stream()
@@ -82,6 +85,7 @@ public class OrderServiceImpl implements OrderService {
         }
     }
 
+    // makes new order
     @Transactional
     public Optional<Order> makeNewOrder(LinkedHashMap<Long, Long> content, String userEmail) {
         try {
@@ -143,6 +147,7 @@ public class OrderServiceImpl implements OrderService {
         }
     }
 
+    // when order is made the products from store's stock are passed to the order
     public boolean transferProductFromStockToOrder(Product product, OrdersDetails currentDetails) {
         try {
             // adjusts order details if there is no enough product qty in stock
@@ -162,6 +167,7 @@ public class OrderServiceImpl implements OrderService {
         }
     }
 
+    // simulation of the payment (30% fails, 70% succeed)
     @Transactional
     public Long makePayment(PaymentDTO paymentDTO) {
         try {
@@ -210,6 +216,7 @@ public class OrderServiceImpl implements OrderService {
         }
     }
 
+    // deletes order with the database, but with constraint: CREATED or COMPLETED only
     @Transactional
     public boolean deleteOrderByIdWithStatusConstraint(Long id, OrderStatus[] statusesAllowed) {
         try {
@@ -237,6 +244,7 @@ public class OrderServiceImpl implements OrderService {
         }
     }
 
+    // transfer products back to store's stock - for cancelled orders
     @Transactional
     public boolean transferProductsFromCancelledOrderToStock(List<OrdersDetails> ordersDetails) {
         try {
@@ -275,6 +283,7 @@ public class OrderServiceImpl implements OrderService {
         }
     }
 
+    // updates Status, Contact and Address for the order
     public boolean updateOrderParameters(Long id, Order order) {
         try {
             Optional<Order> optionalOrder = orderRepository.findById(id);

@@ -30,7 +30,6 @@ public class OrderServiceModuleTests {
 
     @Captor
     private ArgumentCaptor<Order> userArgumentCaptor;
-
     @Mock
     private OrderRepository orderRepository;
     @Mock
@@ -39,7 +38,6 @@ public class OrderServiceModuleTests {
     private ProductRepository productRepository;
     @Mock
     private OrdersDetailsRepository ordersDetailsRepository;
-
     @InjectMocks
     private OrderServiceImpl orderService;
 

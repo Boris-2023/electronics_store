@@ -17,6 +17,7 @@ public class UserController {
 
     private UserService userService;
 
+    // adding new user based on dto received
     @TrackUserAction
     @RequestMapping(value = "/auth/registration", method = RequestMethod.POST)
     public String addUser(
@@ -58,6 +59,7 @@ public class UserController {
     @RequestMapping(value = "/profile", method = RequestMethod.GET)
     public String displayUserData(Model model) {
 
+        // gets a name of user from security context
         String userName = SecurityContextHolder.getContext().getAuthentication().getName();
         User user = userService.getUserByEmail(userName).orElse(null);
 

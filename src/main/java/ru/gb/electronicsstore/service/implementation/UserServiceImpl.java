@@ -22,7 +22,7 @@ public class UserServiceImpl implements UserService {
     private UserRepository userRepository;
     private OrderRepository orderRepository;
 
-    // save new user
+    // save new user based on its DTO
     public boolean addUser(UserDTO userDTO) {
 
         try {
@@ -66,6 +66,7 @@ public class UserServiceImpl implements UserService {
         }
     }
 
+    // gets user by its email
     public Optional<User> getUserByEmail(String email) {
         try {
             return userRepository.findByEmail(email);
@@ -75,6 +76,7 @@ public class UserServiceImpl implements UserService {
         }
     }
 
+    // only users with no orders can be deleted from database
     public boolean deleteUserByIdWithOrderConstraint(Long id) {
         try {
             Optional<User> userOptional = userRepository.findById(id);
@@ -94,6 +96,7 @@ public class UserServiceImpl implements UserService {
         }
     }
 
+    // update user's address and phone in the database
     public boolean updateUserParameters(Long id, User user) {
         try {
             Optional<User> optionalUser = userRepository.findById(id);

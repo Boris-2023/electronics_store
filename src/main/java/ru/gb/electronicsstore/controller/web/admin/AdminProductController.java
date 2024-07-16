@@ -20,7 +20,7 @@ public class AdminProductController {
     @RequestMapping(value = "/products", method = RequestMethod.GET)
     public String getAllProducts(Model model) {
         model.addAttribute("products", productService.getAllProducts());
-        return "admin/products";
+        return "/admin/products";
     }
 
     @TrackUserAction
@@ -58,7 +58,7 @@ public class AdminProductController {
         Optional<Product> productOptional = productService.getProductById(id);
         if (productOptional.isPresent()) {
             model.addAttribute("product", productOptional.get());
-            return "admin/product-update";
+            return "/admin/product-update";
         }
         return "redirect:/admin/products?search_failed";
     }

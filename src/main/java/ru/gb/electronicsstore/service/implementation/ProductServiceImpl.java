@@ -19,6 +19,7 @@ public class ProductServiceImpl implements ProductService {
     private ProductRepository productRepository;
     private OrdersDetailsRepository oDetailsRepository;
 
+    // add product to the database
     public Boolean addProduct(Product product) {
         try {
             Optional<Product> productOptional = productRepository.findAll().stream()
@@ -57,6 +58,7 @@ public class ProductServiceImpl implements ProductService {
         }
     }
 
+    // get all products from stock, which are allowed to be sold
     public List<Product> getActiveProductsInStockByText(String text) {
         try {
             final String testString = text.replace(" ", "").toLowerCase();
@@ -69,6 +71,7 @@ public class ProductServiceImpl implements ProductService {
         }
     }
 
+    // returns a product by its id, but if it is allowed to be sold
     public Optional<Product> getActiveProductById(Long id) {
         try {
             Optional<Product> productOptional = productRepository.findById(id);
@@ -129,6 +132,7 @@ public class ProductServiceImpl implements ProductService {
         }
     }
 
+    // delete product if it is not included in any order
     public Boolean deleteProductByIdWithOrderConstraint(Long id) {
         try {
             Optional<Product> productOptional = productRepository.findById(id);
